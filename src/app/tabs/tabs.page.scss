@@ -1,3 +1,7 @@
+ion-tab-bar {
+  padding-bottom: calc(6px + var(--ion-safe-area-bottom, 0px));
+}
+
 ion-tab-button {
   --color: var(--app-text-muted);
   --color-selected: var(--ion-color-primary);
