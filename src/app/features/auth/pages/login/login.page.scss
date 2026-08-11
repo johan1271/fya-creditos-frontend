@@ -18,10 +18,15 @@
 
 .login-brand {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
   margin-bottom: 4px;
+}
+
+.login-brand__icon {
+  height: 36px;
+  width: auto;
 }
 
 .login-brand__mark {
