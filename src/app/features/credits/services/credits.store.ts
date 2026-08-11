@@ -36,16 +36,18 @@ export class CreditsStore {
     this._error.set(null);
     this._searchTerm.set(term);
 
-    this.api.search(term, page, size).subscribe({
-      next: (response) => {
-        this._credits.set(toCreditList(response.content));
-        this._page.set(response.page);
-        this._totalPages.set(response.totalPages);
-        this._totalElements.set(response.totalElements);
-      },
-      error: () => this._error.set('Could not load credits. Please try again.'),
-      complete: () => this._loading.set(false),
-    });
+    this.api
+      .search(term, page, size)
+      .pipe(finalize(() => this._loading.set(false)))
+      .subscribe({
+        next: (response) => {
+          this._credits.set(toCreditList(response.content));
+          this._page.set(response.page);
+          this._totalPages.set(response.totalPages);
+          this._totalElements.set(response.totalElements);
+        },
+        error: () => this._error.set('Could not load credits. Please try again.'),
+      });
   }
 
   register(request: CreditRequestDto): Observable<Credit> {
