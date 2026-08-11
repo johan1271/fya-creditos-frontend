@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'fya-creditos-frontend',
+  appId: 'com.fya.creditos',
+  appName: 'Fya Créditos',
   webDir: 'www'
 };
 
