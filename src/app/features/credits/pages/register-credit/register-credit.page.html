@@ -1,0 +1,70 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Register credit</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <form novalidate (submit)="onSubmit(); $event.preventDefault()">
+    <ion-item>
+      <ion-label position="stacked">Customer name</ion-label>
+      <ion-input [formField]="creditForm.customerName"></ion-input>
+    </ion-item>
+    @if (creditForm.customerName().touched() && creditForm.customerName().errors().length) {
+      <p class="field-error">{{ creditForm.customerName().errors()[0].message }}</p>
+    }
+
+    <ion-item>
+      <ion-label position="stacked">ID number</ion-label>
+      <ion-input [formField]="creditForm.idNumber"></ion-input>
+    </ion-item>
+    @if (creditForm.idNumber().touched() && creditForm.idNumber().errors().length) {
+      <p class="field-error">{{ creditForm.idNumber().errors()[0].message }}</p>
+    }
+
+    <ion-item>
+      <ion-label position="stacked">Credit amount</ion-label>
+      <ion-input type="number" inputmode="decimal" [formField]="creditForm.creditAmount"></ion-input>
+    </ion-item>
+    @if (creditForm.creditAmount().touched() && creditForm.creditAmount().errors().length) {
+      <p class="field-error">{{ creditForm.creditAmount().errors()[0].message }}</p>
+    }
+
+    <ion-item>
+      <ion-label position="stacked">Interest rate (%)</ion-label>
+      <ion-input type="number" inputmode="decimal" [formField]="creditForm.interestRate"></ion-input>
+    </ion-item>
+    @if (creditForm.interestRate().touched() && creditForm.interestRate().errors().length) {
+      <p class="field-error">{{ creditForm.interestRate().errors()[0].message }}</p>
+    }
+
+    <ion-item>
+      <ion-label position="stacked">Term (months)</ion-label>
+      <ion-input type="number" inputmode="numeric" [formField]="creditForm.termMonths"></ion-input>
+    </ion-item>
+    @if (creditForm.termMonths().touched() && creditForm.termMonths().errors().length) {
+      <p class="field-error">{{ creditForm.termMonths().errors()[0].message }}</p>
+    }
+
+    <ion-item>
+      <ion-label position="stacked">Sales agent</ion-label>
+      <ion-input [formField]="creditForm.salesAgent"></ion-input>
+    </ion-item>
+    @if (creditForm.salesAgent().touched() && creditForm.salesAgent().errors().length) {
+      <p class="field-error">{{ creditForm.salesAgent().errors()[0].message }}</p>
+    }
+
+    <ion-button
+      expand="block"
+      type="submit"
+      class="submit-button"
+      [disabled]="creditForm().invalid() || store.registering()"
+    >
+      @if (store.registering()) {
+        Registering…
+      } @else {
+        Register credit
+      }
+    </ion-button>
+  </form>
+</ion-content>
