@@ -12,6 +12,7 @@ ion-segment {
 ion-segment-button {
   --padding-start: 2px;
   --padding-end: 2px;
+  --color-checked: var(--app-accent-text);
   min-width: 56px;
   min-height: 38px;
   font-size: 0.62rem;
