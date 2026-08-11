@@ -42,6 +42,8 @@
   --ion-item-background: var(--app-surface);
   --ion-card-background: var(--app-surface);
   --ion-toolbar-background: var(--app-surface);
+  --ion-tab-bar-background: var(--app-surface);
+  --ion-tab-bar-background-focused: var(--app-surface);
 }
 
 :root.ion-palette-dark {
@@ -70,4 +72,6 @@
   --ion-item-background: var(--app-surface);
   --ion-card-background: var(--app-surface);
   --ion-toolbar-background: var(--app-surface);
+  --ion-tab-bar-background: var(--app-surface);
+  --ion-tab-bar-background-focused: var(--app-surface);
 }
