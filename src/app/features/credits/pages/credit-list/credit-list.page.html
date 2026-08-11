@@ -1,13 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Search credits</ion-title>
+    <ion-title>Buscar créditos</ion-title>
     <ion-buttons slot="end">
       <app-theme-toggle></app-theme-toggle>
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
     <ion-searchbar
-      placeholder="Name, ID number or sales agent"
+      placeholder="Nombre, número de identificación o asesor"
       [debounce]="300"
       (ionInput)="onSearchChange($event)"
     ></ion-searchbar>
@@ -28,28 +28,51 @@
   } @else if (store.error()) {
     <div class="state-message">{{ store.error() }}</div>
   } @else if (store.isEmpty()) {
-    <div class="state-message">No credits found.</div>
+    <div class="state-message">No se encontraron créditos.</div>
   } @else {
     @for (credit of store.credits(); track credit.id) {
       <ion-card class="credit-card">
         <ion-card-content>
-          <div class="credit-amount">{{ credit.creditAmount | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</div>
-          <div class="credit-name">{{ credit.customerName }}</div>
+          <div class="credit-card__header">
+            <div class="credit-icon">
+              <ion-icon [icon]="cashOutline"></ion-icon>
+            </div>
+            <div class="credit-card__main">
+              <div class="credit-amount">{{ credit.creditAmount | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</div>
+              <div class="credit-name">{{ credit.customerName }}</div>
+            </div>
+          </div>
           <div class="credit-meta">
-            <span>ID {{ credit.idNumber }}</span>
-            <span>{{ credit.salesAgent }}</span>
-            <span>{{ credit.registeredAt | date: 'mediumDate' }}</span>
+            <span [attr.aria-label]="'Número de identificación ' + credit.idNumber">
+              <ion-icon [icon]="cardOutline" aria-hidden="true"></ion-icon>{{ credit.idNumber }}
+            </span>
+            <span [attr.aria-label]="'Asesor ' + credit.salesAgent">
+              <ion-icon [icon]="personOutline" aria-hidden="true"></ion-icon>{{ credit.salesAgent }}
+            </span>
+            <span [attr.aria-label]="'Fecha de registro ' + (credit.registeredAt | date: 'mediumDate')">
+              <ion-icon [icon]="calendarOutline" aria-hidden="true"></ion-icon>{{ credit.registeredAt | date: 'mediumDate' }}
+            </span>
           </div>
         </ion-card-content>
       </ion-card>
     }
 
     <div class="pagination">
-      <ion-button fill="clear" [disabled]="store.page() === 0" (click)="previousPage()">
+      <ion-button
+        fill="clear"
+        aria-label="Página anterior"
+        [disabled]="store.page() === 0"
+        (click)="previousPage()"
+      >
         <ion-icon slot="icon-only" [icon]="chevronBackOutline"></ion-icon>
       </ion-button>
-      <span>Page {{ store.page() + 1 }} of {{ store.totalPages() }}</span>
-      <ion-button fill="clear" [disabled]="store.page() + 1 >= store.totalPages()" (click)="nextPage()">
+      <span>Página {{ store.page() + 1 }} de {{ store.totalPages() }}</span>
+      <ion-button
+        fill="clear"
+        aria-label="Página siguiente"
+        [disabled]="store.page() + 1 >= store.totalPages()"
+        (click)="nextPage()"
+      >
         <ion-icon slot="icon-only" [icon]="chevronForwardOutline"></ion-icon>
       </ion-button>
     </div>

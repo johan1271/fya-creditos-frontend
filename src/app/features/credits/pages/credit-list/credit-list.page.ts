@@ -1,6 +1,13 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
+import {
+  calendarOutline,
+  cardOutline,
+  cashOutline,
+  chevronBackOutline,
+  chevronForwardOutline,
+  personOutline,
+} from 'ionicons/icons';
 import {
   IonButton,
   IonButtons,
@@ -43,6 +50,10 @@ export class CreditListPage implements OnInit {
   protected readonly store = inject(CreditsStore);
   protected readonly chevronBackOutline = chevronBackOutline;
   protected readonly chevronForwardOutline = chevronForwardOutline;
+  protected readonly cashOutline = cashOutline;
+  protected readonly cardOutline = cardOutline;
+  protected readonly personOutline = personOutline;
+  protected readonly calendarOutline = calendarOutline;
   protected readonly skeletonRows = Array.from({ length: 4 });
 
   ngOnInit(): void {
