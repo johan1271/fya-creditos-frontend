@@ -1,5 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <app-brand-icon></app-brand-icon>
+    </ion-buttons>
     <ion-title>Buscar créditos</ion-title>
     <ion-buttons slot="end">
       <app-theme-toggle></app-theme-toggle>
@@ -8,7 +11,7 @@
   </ion-toolbar>
   <ion-toolbar>
     <ion-searchbar
-      placeholder="Nombre, número de identificación o asesor"
+      placeholder="Nombre, cédula o asesor"
       [debounce]="300"
       (ionInput)="onSearchChange($event)"
     ></ion-searchbar>
@@ -31,32 +34,47 @@
   } @else if (store.isEmpty()) {
     <div class="state-message">No se encontraron créditos.</div>
   } @else {
-    @for (credit of store.credits(); track credit.id) {
-      <ion-card class="credit-card">
-        <ion-card-content>
-          <div class="credit-card__header">
-            <div class="credit-icon">
-              <ion-icon [icon]="cashOutline"></ion-icon>
-            </div>
-            <div class="credit-card__main">
-              <div class="credit-amount">{{ credit.creditAmount | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</div>
-              <div class="credit-name">{{ credit.customerName }}</div>
-            </div>
-          </div>
-          <div class="credit-meta">
-            <span [attr.aria-label]="'Número de identificación ' + credit.idNumber">
-              <ion-icon [icon]="cardOutline" aria-hidden="true"></ion-icon>{{ credit.idNumber }}
-            </span>
-            <span [attr.aria-label]="'Asesor ' + credit.salesAgent">
-              <ion-icon [icon]="personOutline" aria-hidden="true"></ion-icon>{{ credit.salesAgent }}
-            </span>
-            <span [attr.aria-label]="'Fecha de registro ' + (credit.registeredAt | date: 'mediumDate')">
-              <ion-icon [icon]="calendarOutline" aria-hidden="true"></ion-icon>{{ credit.registeredAt | date: 'mediumDate' }}
-            </span>
-          </div>
-        </ion-card-content>
-      </ion-card>
-    }
+    <div role="list">
+      @for (credit of store.credits(); track credit.id) {
+        <div
+          role="listitem"
+          [attr.aria-label]="
+            credit.customerName +
+            ', ' +
+            (credit.creditAmount | copCurrency) +
+            ', asesor ' +
+            credit.salesAgent +
+            ', registrado el ' +
+            (credit.registeredAt | date: 'mediumDate')
+          "
+        >
+          <ion-card class="credit-card">
+            <ion-card-content>
+              <div class="credit-card__header">
+                <div class="credit-icon">
+                  <ion-icon [icon]="cashOutline"></ion-icon>
+                </div>
+                <div class="credit-card__main">
+                  <div class="credit-amount">{{ credit.creditAmount | copCurrency }}</div>
+                  <div class="credit-name">{{ credit.customerName }}</div>
+                </div>
+              </div>
+              <div class="credit-meta" aria-hidden="true">
+                <span>
+                  <ion-icon [icon]="cardOutline"></ion-icon>{{ credit.idNumber }}
+                </span>
+                <span>
+                  <ion-icon [icon]="personOutline"></ion-icon>{{ credit.salesAgent }}
+                </span>
+                <span>
+                  <ion-icon [icon]="calendarOutline"></ion-icon>{{ credit.registeredAt | date: 'mediumDate' }}
+                </span>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      }
+    </div>
 
     <div class="pagination">
       <ion-button

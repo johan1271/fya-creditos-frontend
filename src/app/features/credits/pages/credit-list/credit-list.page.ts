@@ -1,4 +1,4 @@
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
   calendarOutline,
@@ -22,8 +22,10 @@ import {
   IonToolbar,
 } from '@ionic/angular/standalone';
 
+import { BrandIconComponent } from '../../../../shared/components/brand-icon/brand-icon.component';
 import { LogoutButtonComponent } from '../../../../shared/components/logout-button/logout-button.component';
 import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle/theme-toggle.component';
+import { CopCurrencyPipe } from '../../../../shared/pipes/cop-currency.pipe';
 import { CreditsStore } from '../../services/credits.store';
 
 @Component({
@@ -42,10 +44,11 @@ import { CreditsStore } from '../../services/credits.store';
     IonSkeletonText,
     IonButton,
     IonIcon,
-    CurrencyPipe,
     DatePipe,
+    CopCurrencyPipe,
     ThemeToggleComponent,
     LogoutButtonComponent,
+    BrandIconComponent,
   ],
 })
 export class CreditListPage implements OnInit {
