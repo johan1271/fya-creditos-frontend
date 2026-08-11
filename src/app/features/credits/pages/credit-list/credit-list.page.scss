@@ -32,8 +32,9 @@ ion-content {
 
 .credit-amount {
   font-size: 1.7rem;
-  font-weight: 700;
+  font-weight: 800;
   font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
   color: var(--ion-color-primary);
   line-height: 1.2;
 }
