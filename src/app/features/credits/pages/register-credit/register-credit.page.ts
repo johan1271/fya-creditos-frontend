@@ -1,22 +1,28 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { form, FormField, max, maxLength, min, required, submit, validate } from '@angular/forms/signals';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { firstValueFrom } from 'rxjs';
 import {
   IonButton,
   IonButtons,
+  IonCard,
+  IonCardContent,
   IonContent,
+  IonFooter,
   IonHeader,
+  IonIcon,
   IonInput,
-  IonItem,
-  IonLabel,
   IonTitle,
   IonToolbar,
   ToastController,
 } from '@ionic/angular/standalone';
+import { checkmarkCircleOutline } from 'ionicons/icons';
 
 import { AuthStore } from '../../../auth/services/auth.store';
+import { BrandIconComponent } from '../../../../shared/components/brand-icon/brand-icon.component';
 import { LogoutButtonComponent } from '../../../../shared/components/logout-button/logout-button.component';
 import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle/theme-toggle.component';
+import { CopCurrencyPipe } from '../../../../shared/pipes/cop-currency.pipe';
 import { CreditsStore } from '../../services/credits.store';
 
 const EMPTY_CREDIT = {
@@ -28,6 +34,8 @@ const EMPTY_CREDIT = {
   salesAgent: '',
 };
 
+const SUCCESS_RECAP_DURATION_MS = 6000;
+
 @Component({
   selector: 'app-register-credit',
   templateUrl: 'register-credit.page.html',
@@ -38,13 +46,17 @@ const EMPTY_CREDIT = {
     IonTitle,
     IonButtons,
     IonContent,
-    IonItem,
-    IonLabel,
     IonInput,
     IonButton,
+    IonFooter,
+    IonCard,
+    IonCardContent,
+    IonIcon,
     FormField,
+    CopCurrencyPipe,
     ThemeToggleComponent,
     LogoutButtonComponent,
+    BrandIconComponent,
   ],
 })
 export class RegisterCreditPage {
@@ -52,10 +64,12 @@ export class RegisterCreditPage {
   private readonly authStore = inject(AuthStore);
   private readonly toastController = inject(ToastController);
 
-  protected readonly model = signal({
-    ...EMPTY_CREDIT,
-    salesAgent: this.authStore.user()?.fullName ?? '',
-  });
+  protected readonly checkmarkCircleOutline = checkmarkCircleOutline;
+
+  protected readonly model = signal(this.restoreDraft());
+  protected readonly lastRegistered = signal<{ customerName: string; creditAmount: number } | null>(null);
+
+  private recapTimeoutId?: ReturnType<typeof setTimeout>;
 
   protected readonly creditForm = form(this.model, (schemaPath) => {
     required(schemaPath.customerName, { message: 'El nombre del cliente es obligatorio' });
@@ -82,13 +96,27 @@ export class RegisterCreditPage {
     maxLength(schemaPath.salesAgent, 150, { message: 'El asesor de ventas debe tener máximo 150 caracteres' });
   });
 
+  constructor() {
+    effect(() => {
+      localStorage.setItem(this.draftKey(), JSON.stringify(this.model()));
+    });
+  }
+
   protected onSubmit(): void {
     submit(this.creditForm, async () => {
       try {
-        await firstValueFrom(this.store.register(this.model()));
-        this.model.set({ ...EMPTY_CREDIT, salesAgent: this.authStore.user()?.fullName ?? '' });
+        const registered = await firstValueFrom(this.store.register(this.model()));
+
+        this.lastRegistered.set({ customerName: registered.customerName, creditAmount: registered.creditAmount });
+        clearTimeout(this.recapTimeoutId);
+        this.recapTimeoutId = setTimeout(() => this.lastRegistered.set(null), SUCCESS_RECAP_DURATION_MS);
+
+        localStorage.removeItem(this.draftKey());
+        this.model.set(this.blankCredit());
         this.creditForm().reset();
+
         await this.presentToast('Crédito registrado exitosamente.', 'success');
+        await Haptics.impact({ style: ImpactStyle.Light }).catch(() => undefined);
       } catch {
         await this.presentToast('No se pudo registrar el crédito. Intenta de nuevo.', 'danger');
       }
@@ -98,5 +126,26 @@ export class RegisterCreditPage {
   private async presentToast(message: string, color: 'success' | 'danger'): Promise<void> {
     const toast = await this.toastController.create({ message, color, duration: 2500, position: 'bottom' });
     await toast.present();
+  }
+
+  private blankCredit(): typeof EMPTY_CREDIT {
+    return { ...EMPTY_CREDIT, salesAgent: this.authStore.user()?.fullName ?? '' };
+  }
+
+  private draftKey(): string {
+    const username = this.authStore.user()?.username ?? 'anonymous';
+    return `fya-register-draft-${username}`;
+  }
+
+  private restoreDraft(): typeof EMPTY_CREDIT {
+    const raw = localStorage.getItem(this.draftKey());
+    if (raw) {
+      try {
+        return JSON.parse(raw) as typeof EMPTY_CREDIT;
+      } catch {
+        // fall through to a blank form
+      }
+    }
+    return this.blankCredit();
   }
 }
