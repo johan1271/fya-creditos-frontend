@@ -14,6 +14,8 @@ import {
   ToastController,
 } from '@ionic/angular/standalone';
 
+import { AuthStore } from '../../../auth/services/auth.store';
+import { LogoutButtonComponent } from '../../../../shared/components/logout-button/logout-button.component';
 import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle/theme-toggle.component';
 import { CreditsStore } from '../../services/credits.store';
 
@@ -42,13 +44,18 @@ const EMPTY_CREDIT = {
     IonButton,
     FormField,
     ThemeToggleComponent,
+    LogoutButtonComponent,
   ],
 })
 export class RegisterCreditPage {
   protected readonly store = inject(CreditsStore);
+  private readonly authStore = inject(AuthStore);
   private readonly toastController = inject(ToastController);
 
-  protected readonly model = signal({ ...EMPTY_CREDIT });
+  protected readonly model = signal({
+    ...EMPTY_CREDIT,
+    salesAgent: this.authStore.user()?.fullName ?? '',
+  });
 
   protected readonly creditForm = form(this.model, (schemaPath) => {
     required(schemaPath.customerName, { message: 'El nombre del cliente es obligatorio' });
@@ -79,7 +86,7 @@ export class RegisterCreditPage {
     submit(this.creditForm, async () => {
       try {
         await firstValueFrom(this.store.register(this.model()));
-        this.model.set({ ...EMPTY_CREDIT });
+        this.model.set({ ...EMPTY_CREDIT, salesAgent: this.authStore.user()?.fullName ?? '' });
         this.creditForm().reset();
         await this.presentToast('Crédito registrado exitosamente.', 'success');
       } catch {

@@ -22,6 +22,7 @@ import {
   IonToolbar,
 } from '@ionic/angular/standalone';
 
+import { LogoutButtonComponent } from '../../../../shared/components/logout-button/logout-button.component';
 import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle/theme-toggle.component';
 import { CreditsStore } from '../../services/credits.store';
 
@@ -44,6 +45,7 @@ import { CreditsStore } from '../../services/credits.store';
     CurrencyPipe,
     DatePipe,
     ThemeToggleComponent,
+    LogoutButtonComponent,
   ],
 })
 export class CreditListPage implements OnInit {
