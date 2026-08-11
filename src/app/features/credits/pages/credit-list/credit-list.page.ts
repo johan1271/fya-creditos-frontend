@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import {
+  IonButton,
   IonButtons,
   IonCard,
   IonCardContent,
@@ -32,6 +33,7 @@ import { CreditsStore } from '../../services/credits.store';
     IonToolbar,
     IonTitle,
     IonButtons,
+    IonButton,
     IonContent,
     IonSearchbar,
     IonCard,
@@ -69,6 +71,10 @@ export class CreditListPage implements OnInit {
   async onIonInfinite(event: Event): Promise<void> {
     await firstValueFrom(this.store.loadMore());
     (event.target as HTMLIonInfiniteScrollElement).complete();
+  }
+
+  async retryLoadMore(): Promise<void> {
+    await firstValueFrom(this.store.loadMore());
   }
 
   previousPage(): void {

@@ -22,6 +22,7 @@ export class CreditsStore {
   private readonly _totalElements = signal(0);
   private readonly _searchTerm = signal('');
   private readonly _hasMore = signal(false);
+  private readonly _loadMoreError = signal<string | null>(null);
 
   readonly credits = this._credits.asReadonly();
   readonly loading = this._loading.asReadonly();
@@ -33,11 +34,13 @@ export class CreditsStore {
   readonly totalElements = this._totalElements.asReadonly();
   readonly searchTerm = this._searchTerm.asReadonly();
   readonly hasMore = this._hasMore.asReadonly();
+  readonly loadMoreError = this._loadMoreError.asReadonly();
   readonly isEmpty = computed(() => !this._loading() && this._credits().length === 0);
 
   search(term: string, page = 0, size = DEFAULT_PAGE_SIZE): void {
     this._loading.set(true);
     this._error.set(null);
+    this._loadMoreError.set(null);
     this._searchTerm.set(term);
 
     this.api
@@ -61,6 +64,7 @@ export class CreditsStore {
     }
 
     this._loadingMore.set(true);
+    this._loadMoreError.set(null);
     const nextPage = this._page() + 1;
 
     return this.api.search(this._searchTerm(), nextPage, DEFAULT_PAGE_SIZE).pipe(
@@ -73,7 +77,9 @@ export class CreditsStore {
       }),
       map(() => undefined),
       catchError(() => {
-        this._error.set('No se pudieron cargar más créditos. Intenta de nuevo.');
+        // Deliberately separate from `_error`: a failed page-2+ fetch must never
+        // blank out the already-rendered list, only surface an inline retry.
+        this._loadMoreError.set('No se pudieron cargar más créditos.');
         return of(undefined);
       }),
       finalize(() => this._loadingMore.set(false)),

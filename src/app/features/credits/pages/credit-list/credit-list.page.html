@@ -43,12 +43,19 @@
       }
     </div>
 
-    <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)" [disabled]="!store.hasMore()">
-      <ion-infinite-scroll-content
-        loadingSpinner="crescent"
-        loadingText="Cargando más créditos…"
-      ></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+    @if (store.loadMoreError()) {
+      <div class="load-more-error">
+        <span>{{ store.loadMoreError() }}</span>
+        <ion-button size="small" fill="clear" (click)="retryLoadMore()">Reintentar</ion-button>
+      </div>
+    } @else {
+      <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)" [disabled]="!store.hasMore()">
+        <ion-infinite-scroll-content
+          loadingSpinner="crescent"
+          loadingText="Cargando más créditos…"
+        ></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    }
   } @else {
     <app-credits-table [credits]="store.credits()"></app-credits-table>
 
