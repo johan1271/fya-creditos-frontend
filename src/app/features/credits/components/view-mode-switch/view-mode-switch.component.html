@@ -1,10 +1,8 @@
 <ion-segment [value]="value()" (ionChange)="onChange($event)">
-  <ion-segment-button value="cards">
+  <ion-segment-button value="cards" aria-label="Ver como tarjetas">
     <ion-icon [icon]="layersOutline"></ion-icon>
-    <ion-label>Tarjetas</ion-label>
   </ion-segment-button>
-  <ion-segment-button value="table">
+  <ion-segment-button value="table" aria-label="Ver como tabla">
     <ion-icon [icon]="gridOutline"></ion-icon>
-    <ion-label>Tabla</ion-label>
   </ion-segment-button>
 </ion-segment>

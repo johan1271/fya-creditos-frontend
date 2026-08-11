@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { gridOutline, layersOutline } from 'ionicons/icons';
-import { IonIcon, IonLabel, IonSegment, IonSegmentButton } from '@ionic/angular/standalone';
+import { IonIcon, IonSegment, IonSegmentButton } from '@ionic/angular/standalone';
 
 export type CreditsViewMode = 'cards' | 'table';
 
@@ -8,7 +8,7 @@ export type CreditsViewMode = 'cards' | 'table';
   selector: 'app-view-mode-switch',
   templateUrl: 'view-mode-switch.component.html',
   styleUrl: 'view-mode-switch.component.scss',
-  imports: [IonSegment, IonSegmentButton, IonIcon, IonLabel],
+  imports: [IonSegment, IonSegmentButton, IonIcon],
 })
 export class ViewModeSwitchComponent {
   readonly value = input.required<CreditsViewMode>();
