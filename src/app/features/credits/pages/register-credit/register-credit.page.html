@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Register credit</ion-title>
+    <ion-title>Registrar crédito</ion-title>
     <ion-buttons slot="end">
       <app-theme-toggle></app-theme-toggle>
     </ion-buttons>
@@ -10,7 +10,7 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <form novalidate (submit)="onSubmit(); $event.preventDefault()">
     <ion-item>
-      <ion-label position="stacked">Customer name</ion-label>
+      <ion-label position="stacked">Nombre del cliente</ion-label>
       <ion-input [formField]="creditForm.customerName"></ion-input>
     </ion-item>
     @if (creditForm.customerName().touched() && creditForm.customerName().errors().length) {
@@ -18,7 +18,7 @@
     }
 
     <ion-item>
-      <ion-label position="stacked">ID number</ion-label>
+      <ion-label position="stacked">Número de identificación</ion-label>
       <ion-input [formField]="creditForm.idNumber"></ion-input>
     </ion-item>
     @if (creditForm.idNumber().touched() && creditForm.idNumber().errors().length) {
@@ -26,7 +26,7 @@
     }
 
     <ion-item>
-      <ion-label position="stacked">Credit amount</ion-label>
+      <ion-label position="stacked">Monto del crédito</ion-label>
       <ion-input type="number" inputmode="decimal" [formField]="creditForm.creditAmount"></ion-input>
     </ion-item>
     @if (creditForm.creditAmount().touched() && creditForm.creditAmount().errors().length) {
@@ -34,7 +34,7 @@
     }
 
     <ion-item>
-      <ion-label position="stacked">Interest rate (%)</ion-label>
+      <ion-label position="stacked">Tasa de interés (%)</ion-label>
       <ion-input type="number" inputmode="decimal" [formField]="creditForm.interestRate"></ion-input>
     </ion-item>
     @if (creditForm.interestRate().touched() && creditForm.interestRate().errors().length) {
@@ -42,7 +42,7 @@
     }
 
     <ion-item>
-      <ion-label position="stacked">Term (months)</ion-label>
+      <ion-label position="stacked">Plazo (meses)</ion-label>
       <ion-input type="number" inputmode="numeric" [formField]="creditForm.termMonths"></ion-input>
     </ion-item>
     @if (creditForm.termMonths().touched() && creditForm.termMonths().errors().length) {
@@ -50,7 +50,7 @@
     }
 
     <ion-item>
-      <ion-label position="stacked">Sales agent</ion-label>
+      <ion-label position="stacked">Asesor de ventas</ion-label>
       <ion-input [formField]="creditForm.salesAgent"></ion-input>
     </ion-item>
     @if (creditForm.salesAgent().touched() && creditForm.salesAgent().errors().length) {
@@ -64,9 +64,9 @@
       [disabled]="creditForm().invalid() || store.registering()"
     >
       @if (store.registering()) {
-        Registering…
+        Registrando…
       } @else {
-        Register credit
+        Registrar crédito
       }
     </ion-button>
   </form>

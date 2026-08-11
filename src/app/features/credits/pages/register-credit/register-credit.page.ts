@@ -51,26 +51,28 @@ export class RegisterCreditPage {
   protected readonly model = signal({ ...EMPTY_CREDIT });
 
   protected readonly creditForm = form(this.model, (schemaPath) => {
-    required(schemaPath.customerName, { message: 'Customer name is required' });
-    maxLength(schemaPath.customerName, 150, { message: 'Customer name must be at most 150 characters' });
+    required(schemaPath.customerName, { message: 'El nombre del cliente es obligatorio' });
+    maxLength(schemaPath.customerName, 150, { message: 'El nombre del cliente debe tener máximo 150 caracteres' });
 
-    required(schemaPath.idNumber, { message: 'ID number is required' });
-    maxLength(schemaPath.idNumber, 20, { message: 'ID number must be at most 20 characters' });
+    required(schemaPath.idNumber, { message: 'El número de identificación es obligatorio' });
+    maxLength(schemaPath.idNumber, 20, {
+      message: 'El número de identificación debe tener máximo 20 caracteres',
+    });
 
     validate(schemaPath.creditAmount, ({ value }) =>
-      value() > 0 ? undefined : { kind: 'positive', message: 'Credit amount must be greater than 0' },
+      value() > 0 ? undefined : { kind: 'positive', message: 'El monto del crédito debe ser mayor que 0' },
     );
 
     validate(schemaPath.interestRate, ({ value }) =>
-      value() > 0 ? undefined : { kind: 'positive', message: 'Interest rate must be greater than 0' },
+      value() > 0 ? undefined : { kind: 'positive', message: 'La tasa de interés debe ser mayor que 0' },
     );
-    max(schemaPath.interestRate, 100, { message: 'Interest rate must be at most 100' });
+    max(schemaPath.interestRate, 100, { message: 'La tasa de interés debe ser máximo 100' });
 
-    min(schemaPath.termMonths, 1, { message: 'Term must be at least 1 month' });
-    max(schemaPath.termMonths, 360, { message: 'Term must be at most 360 months' });
+    min(schemaPath.termMonths, 1, { message: 'El plazo debe ser de al menos 1 mes' });
+    max(schemaPath.termMonths, 360, { message: 'El plazo debe ser máximo 360 meses' });
 
-    required(schemaPath.salesAgent, { message: 'Sales agent is required' });
-    maxLength(schemaPath.salesAgent, 150, { message: 'Sales agent must be at most 150 characters' });
+    required(schemaPath.salesAgent, { message: 'El asesor de ventas es obligatorio' });
+    maxLength(schemaPath.salesAgent, 150, { message: 'El asesor de ventas debe tener máximo 150 caracteres' });
   });
 
   protected onSubmit(): void {
@@ -79,9 +81,9 @@ export class RegisterCreditPage {
         await firstValueFrom(this.store.register(this.model()));
         this.model.set({ ...EMPTY_CREDIT });
         this.creditForm().reset();
-        await this.presentToast('Credit registered successfully.', 'success');
+        await this.presentToast('Crédito registrado exitosamente.', 'success');
       } catch {
-        await this.presentToast('Could not register the credit. Please try again.', 'danger');
+        await this.presentToast('No se pudo registrar el crédito. Intenta de nuevo.', 'danger');
       }
     });
   }

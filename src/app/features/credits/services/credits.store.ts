@@ -46,7 +46,7 @@ export class CreditsStore {
           this._totalPages.set(response.totalPages);
           this._totalElements.set(response.totalElements);
         },
-        error: () => this._error.set('Could not load credits. Please try again.'),
+        error: () => this._error.set('No se pudieron cargar los créditos. Intenta de nuevo.'),
       });
   }
 

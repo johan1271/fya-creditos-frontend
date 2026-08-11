@@ -7,7 +7,7 @@ import { ThemeService } from '../../../core/theme/theme.service';
 @Component({
   selector: 'app-theme-toggle',
   template: `
-    <ion-button fill="clear" (click)="theme.toggle()" aria-label="Toggle dark mode">
+    <ion-button fill="clear" (click)="theme.toggle()" aria-label="Cambiar entre modo claro y oscuro">
       <ion-icon slot="icon-only" [icon]="theme.isDark() ? sunnyOutline : moonOutline"></ion-icon>
     </ion-button>
   `,
