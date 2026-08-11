@@ -3,6 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
 import {
   IonButton,
+  IonButtons,
   IonCard,
   IonCardContent,
   IonContent,
@@ -14,6 +15,7 @@ import {
   IonToolbar,
 } from '@ionic/angular/standalone';
 
+import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle/theme-toggle.component';
 import { CreditsStore } from '../../services/credits.store';
 
 @Component({
@@ -24,6 +26,7 @@ import { CreditsStore } from '../../services/credits.store';
     IonHeader,
     IonToolbar,
     IonTitle,
+    IonButtons,
     IonContent,
     IonSearchbar,
     IonCard,
@@ -33,6 +36,7 @@ import { CreditsStore } from '../../services/credits.store';
     IonIcon,
     CurrencyPipe,
     DatePipe,
+    ThemeToggleComponent,
   ],
 })
 export class CreditListPage implements OnInit {

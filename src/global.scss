@@ -28,10 +28,7 @@
 /**
  * Ionic Dark Mode
  * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
+ * Light/dark palettes are defined by hand in theme/variables.scss and toggled
+ * via the .ion-palette-dark class (see core/theme/theme.service.ts), so none
+ * of Ionic's canned palette stylesheets are imported here.
  */
-
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";

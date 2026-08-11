@@ -3,6 +3,7 @@ import { form, FormField, max, maxLength, min, required, submit, validate } from
 import { firstValueFrom } from 'rxjs';
 import {
   IonButton,
+  IonButtons,
   IonContent,
   IonHeader,
   IonInput,
@@ -13,6 +14,7 @@ import {
   ToastController,
 } from '@ionic/angular/standalone';
 
+import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle/theme-toggle.component';
 import { CreditsStore } from '../../services/credits.store';
 
 const EMPTY_CREDIT = {
@@ -28,7 +30,19 @@ const EMPTY_CREDIT = {
   selector: 'app-register-credit',
   templateUrl: 'register-credit.page.html',
   styleUrls: ['register-credit.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton, FormField],
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButtons,
+    IonContent,
+    IonItem,
+    IonLabel,
+    IonInput,
+    IonButton,
+    FormField,
+    ThemeToggleComponent,
+  ],
 })
 export class RegisterCreditPage {
   protected readonly store = inject(CreditsStore);
