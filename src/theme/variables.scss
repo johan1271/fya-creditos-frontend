@@ -104,3 +104,12 @@
   --icon-color: var(--app-text-muted);
   --placeholder-color: var(--app-text-muted);
 }
+
+// outline-fill ion-input's resting (unfocused) border falls back through
+// --ion-color-step-300 to a hardcoded #b3b3b3 — barely visible against a
+// light surface. Focus/invalid states already switch to --highlight-color
+// (tied to the input's color, i.e. our primary green), so only the resting
+// border needs a theme-aware value here.
+:root ion-input[fill='outline'] {
+  --border-color: var(--app-text-muted);
+}

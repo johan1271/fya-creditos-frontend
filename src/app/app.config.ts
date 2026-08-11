@@ -15,7 +15,13 @@ export const appConfig: ApplicationConfig = {
   providers: [
     { provide: LOCALE_ID, useValue: 'es-CO' },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideIonicAngular(),
+    // Force Material Design mode everywhere: the shipped product is a
+    // Capacitor Android app, so Android's real rendering is what matters.
+    // Without this, Ionic auto-detects "ios" mode on Safari/iPhone (e.g. when
+    // previewing on a personal iPhone, since there's no Android device on
+    // hand) — and ion-input's outline fill has no iOS-mode styles at all, so
+    // the rounded-outline borders we designed simply don't render there.
+    provideIonicAngular({ mode: 'md' }),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
   ],
