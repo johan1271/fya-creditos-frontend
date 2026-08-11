@@ -1,0 +1,53 @@
+.login-content {
+  --background: var(--ion-background-color);
+}
+
+.login-content::part(scroll) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+
+.login-brand {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.login-brand__mark {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--ion-color-primary);
+}
+
+.login-brand__name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--ion-text-color);
+}
+
+.login-subtitle {
+  text-align: center;
+  color: var(--app-text-muted);
+  margin-bottom: 24px;
+}
+
+.field-error {
+  color: var(--ion-color-danger);
+  font-size: 0.8rem;
+  margin: 4px 16px 0;
+}
+
+.submit-button {
+  margin-top: 24px;
+}
