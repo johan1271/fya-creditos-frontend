@@ -1,0 +1,32 @@
+:host {
+  display: block;
+  flex: 0 0 172px;
+  width: 172px;
+}
+
+ion-segment {
+  width: 100%;
+  padding: 0;
+}
+
+ion-segment-button {
+  --padding-start: 2px;
+  --padding-end: 2px;
+  min-width: 56px;
+  min-height: 38px;
+  font-size: 0.62rem;
+  letter-spacing: normal;
+  text-transform: none;
+
+  ion-icon {
+    font-size: 15px;
+    margin-top: 4px;
+    margin-bottom: 1px;
+  }
+
+  ion-label {
+    margin-top: 0;
+    margin-bottom: 3px;
+    white-space: nowrap;
+  }
+}

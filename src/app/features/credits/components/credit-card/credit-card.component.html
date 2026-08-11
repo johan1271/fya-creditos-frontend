@@ -1,0 +1,37 @@
+<div
+  role="listitem"
+  [attr.aria-label]="
+    credit().customerName +
+    ', ' +
+    (credit().creditAmount | copCurrency) +
+    ', asesor ' +
+    credit().salesAgent +
+    ', registrado el ' +
+    (credit().registeredAt | date: 'mediumDate')
+  "
+>
+  <ion-card class="credit-card">
+    <ion-card-content>
+      <div class="credit-card__header">
+        <div class="credit-icon">
+          <ion-icon [icon]="cashOutline"></ion-icon>
+        </div>
+        <div class="credit-card__main">
+          <div class="credit-amount">{{ credit().creditAmount | copCurrency }}</div>
+          <div class="credit-name">{{ credit().customerName }}</div>
+        </div>
+      </div>
+      <div class="credit-meta" aria-hidden="true">
+        <span>
+          <ion-icon [icon]="cardOutline"></ion-icon>{{ credit().idNumber }}
+        </span>
+        <span>
+          <ion-icon [icon]="personOutline"></ion-icon>{{ credit().salesAgent }}
+        </span>
+        <span>
+          <ion-icon [icon]="calendarOutline"></ion-icon>{{ credit().registeredAt | date: 'mediumDate' }}
+        </span>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</div>

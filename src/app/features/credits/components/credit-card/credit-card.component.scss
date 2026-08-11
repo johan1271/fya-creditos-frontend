@@ -1,0 +1,62 @@
+.credit-card {
+  border-radius: 16px;
+}
+
+.credit-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.credit-icon {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(var(--ion-color-secondary-rgb), 0.15);
+  color: var(--ion-color-secondary);
+  font-size: 1.2rem;
+}
+
+.credit-card__main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.credit-amount {
+  font-size: 1.7rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  color: var(--ion-color-primary);
+  line-height: 1.2;
+}
+
+.credit-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-top: 2px;
+  color: var(--ion-text-color);
+}
+
+.credit-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 14px;
+  font-size: 0.78rem;
+  color: var(--app-text-muted);
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  ion-icon {
+    font-size: 1rem;
+  }
+}

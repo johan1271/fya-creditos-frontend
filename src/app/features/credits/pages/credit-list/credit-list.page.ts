@@ -1,30 +1,14 @@
-import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import {
-  calendarOutline,
-  cardOutline,
-  cashOutline,
-  chevronBackOutline,
-  chevronForwardOutline,
-  gridOutline,
-  layersOutline,
-  personOutline,
-} from 'ionicons/icons';
-import {
-  IonButton,
   IonButtons,
   IonCard,
   IonCardContent,
   IonContent,
   IonHeader,
-  IonIcon,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
-  IonLabel,
   IonSearchbar,
-  IonSegment,
-  IonSegmentButton,
   IonSkeletonText,
   IonTitle,
   IonToolbar,
@@ -33,10 +17,11 @@ import {
 import { BrandIconComponent } from '../../../../shared/components/brand-icon/brand-icon.component';
 import { LogoutButtonComponent } from '../../../../shared/components/logout-button/logout-button.component';
 import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle/theme-toggle.component';
-import { CopCurrencyPipe } from '../../../../shared/pipes/cop-currency.pipe';
+import { CreditCardComponent } from '../../components/credit-card/credit-card.component';
+import { CreditsTableComponent } from '../../components/credits-table/credits-table.component';
+import { PaginationControlsComponent } from '../../components/pagination-controls/pagination-controls.component';
+import { CreditsViewMode, ViewModeSwitchComponent } from '../../components/view-mode-switch/view-mode-switch.component';
 import { CreditsStore } from '../../services/credits.store';
-
-type ViewMode = 'cards' | 'table';
 
 @Component({
   selector: 'app-credit-list',
@@ -49,35 +34,23 @@ type ViewMode = 'cards' | 'table';
     IonButtons,
     IonContent,
     IonSearchbar,
-    IonSegment,
-    IonSegmentButton,
-    IonLabel,
     IonCard,
     IonCardContent,
     IonSkeletonText,
     IonInfiniteScroll,
     IonInfiniteScrollContent,
-    IonButton,
-    IonIcon,
-    DatePipe,
-    CopCurrencyPipe,
     ThemeToggleComponent,
     LogoutButtonComponent,
     BrandIconComponent,
+    CreditCardComponent,
+    CreditsTableComponent,
+    ViewModeSwitchComponent,
+    PaginationControlsComponent,
   ],
 })
 export class CreditListPage implements OnInit {
   protected readonly store = inject(CreditsStore);
-  protected readonly viewMode = signal<ViewMode>('cards');
-
-  protected readonly chevronBackOutline = chevronBackOutline;
-  protected readonly chevronForwardOutline = chevronForwardOutline;
-  protected readonly cashOutline = cashOutline;
-  protected readonly cardOutline = cardOutline;
-  protected readonly personOutline = personOutline;
-  protected readonly calendarOutline = calendarOutline;
-  protected readonly layersOutline = layersOutline;
-  protected readonly gridOutline = gridOutline;
+  protected readonly viewMode = signal<CreditsViewMode>('cards');
   protected readonly skeletonRows = Array.from({ length: 4 });
 
   ngOnInit(): void {
@@ -88,12 +61,9 @@ export class CreditListPage implements OnInit {
     this.store.search(event.detail.value ?? '');
   }
 
-  onViewModeChange(event: CustomEvent<{ value?: string | number }>): void {
-    const value = event.detail.value;
-    if (value === 'cards' || value === 'table') {
-      this.viewMode.set(value);
-      this.store.search(this.store.searchTerm(), 0);
-    }
+  onViewModeChange(mode: CreditsViewMode): void {
+    this.viewMode.set(mode);
+    this.store.search(this.store.searchTerm(), 0);
   }
 
   async onIonInfinite(event: Event): Promise<void> {

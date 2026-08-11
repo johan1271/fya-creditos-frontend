@@ -1,0 +1,28 @@
+<div class="table-scroll">
+  <table class="credits-table">
+    <thead>
+      <tr>
+        <th>Cliente</th>
+        <th>Identificación</th>
+        <th>Monto</th>
+        <th>Tasa</th>
+        <th>Plazo</th>
+        <th>Asesor</th>
+        <th>Fecha</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (credit of credits(); track credit.id) {
+        <tr>
+          <td>{{ credit.customerName }}</td>
+          <td>{{ credit.idNumber }}</td>
+          <td class="numeric">{{ credit.creditAmount | copCurrency }}</td>
+          <td class="numeric">{{ credit.interestRate }}%</td>
+          <td class="numeric">{{ credit.termMonths }} meses</td>
+          <td>{{ credit.salesAgent }}</td>
+          <td>{{ credit.registeredAt | date: 'mediumDate' }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

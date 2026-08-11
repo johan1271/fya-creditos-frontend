@@ -16,16 +16,7 @@
         [debounce]="300"
         (ionInput)="onSearchChange($event)"
       ></ion-searchbar>
-      <ion-segment [value]="viewMode()" (ionChange)="onViewModeChange($event)">
-        <ion-segment-button value="cards">
-          <ion-icon [icon]="layersOutline"></ion-icon>
-          <ion-label>Tarjetas</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="table">
-          <ion-icon [icon]="gridOutline"></ion-icon>
-          <ion-label>Tabla</ion-label>
-        </ion-segment-button>
-      </ion-segment>
+      <app-view-mode-switch [value]="viewMode()" (valueChange)="onViewModeChange($event)"></app-view-mode-switch>
     </div>
   </ion-toolbar>
 </ion-header>
@@ -48,43 +39,7 @@
   } @else if (viewMode() === 'cards') {
     <div role="list">
       @for (credit of store.credits(); track credit.id) {
-        <div
-          role="listitem"
-          [attr.aria-label]="
-            credit.customerName +
-            ', ' +
-            (credit.creditAmount | copCurrency) +
-            ', asesor ' +
-            credit.salesAgent +
-            ', registrado el ' +
-            (credit.registeredAt | date: 'mediumDate')
-          "
-        >
-          <ion-card class="credit-card">
-            <ion-card-content>
-              <div class="credit-card__header">
-                <div class="credit-icon">
-                  <ion-icon [icon]="cashOutline"></ion-icon>
-                </div>
-                <div class="credit-card__main">
-                  <div class="credit-amount">{{ credit.creditAmount | copCurrency }}</div>
-                  <div class="credit-name">{{ credit.customerName }}</div>
-                </div>
-              </div>
-              <div class="credit-meta" aria-hidden="true">
-                <span>
-                  <ion-icon [icon]="cardOutline"></ion-icon>{{ credit.idNumber }}
-                </span>
-                <span>
-                  <ion-icon [icon]="personOutline"></ion-icon>{{ credit.salesAgent }}
-                </span>
-                <span>
-                  <ion-icon [icon]="calendarOutline"></ion-icon>{{ credit.registeredAt | date: 'mediumDate' }}
-                </span>
-              </div>
-            </ion-card-content>
-          </ion-card>
-        </div>
+        <app-credit-card [credit]="credit"></app-credit-card>
       }
     </div>
 
@@ -95,53 +50,13 @@
       ></ion-infinite-scroll-content>
     </ion-infinite-scroll>
   } @else {
-    <div class="table-scroll">
-      <table class="credits-table">
-        <thead>
-          <tr>
-            <th>Cliente</th>
-            <th>Identificación</th>
-            <th>Monto</th>
-            <th>Tasa</th>
-            <th>Plazo</th>
-            <th>Asesor</th>
-            <th>Fecha</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (credit of store.credits(); track credit.id) {
-            <tr>
-              <td>{{ credit.customerName }}</td>
-              <td>{{ credit.idNumber }}</td>
-              <td class="numeric">{{ credit.creditAmount | copCurrency }}</td>
-              <td class="numeric">{{ credit.interestRate }}%</td>
-              <td class="numeric">{{ credit.termMonths }} meses</td>
-              <td>{{ credit.salesAgent }}</td>
-              <td>{{ credit.registeredAt | date: 'mediumDate' }}</td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
+    <app-credits-table [credits]="store.credits()"></app-credits-table>
 
-    <div class="pagination">
-      <ion-button
-        fill="clear"
-        aria-label="Página anterior"
-        [disabled]="store.page() === 0"
-        (click)="previousPage()"
-      >
-        <ion-icon slot="icon-only" [icon]="chevronBackOutline"></ion-icon>
-      </ion-button>
-      <span>Página {{ store.page() + 1 }} de {{ store.totalPages() }}</span>
-      <ion-button
-        fill="clear"
-        aria-label="Página siguiente"
-        [disabled]="store.page() + 1 >= store.totalPages()"
-        (click)="nextPage()"
-      >
-        <ion-icon slot="icon-only" [icon]="chevronForwardOutline"></ion-icon>
-      </ion-button>
-    </div>
+    <app-pagination-controls
+      [page]="store.page()"
+      [totalPages]="store.totalPages()"
+      (previous)="previousPage()"
+      (next)="nextPage()"
+    ></app-pagination-controls>
   }
 </ion-content>

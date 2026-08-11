@@ -1,0 +1,14 @@
+<div class="pagination">
+  <ion-button fill="clear" aria-label="Página anterior" [disabled]="page() === 0" (click)="previous.emit()">
+    <ion-icon slot="icon-only" [icon]="chevronBackOutline"></ion-icon>
+  </ion-button>
+  <span>Página {{ page() + 1 }} de {{ totalPages() }}</span>
+  <ion-button
+    fill="clear"
+    aria-label="Página siguiente"
+    [disabled]="page() + 1 >= totalPages()"
+    (click)="next.emit()"
+  >
+    <ion-icon slot="icon-only" [icon]="chevronForwardOutline"></ion-icon>
+  </ion-button>
+</div>
