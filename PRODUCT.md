@@ -34,11 +34,18 @@ Not applicable — this is an internal tool built for a technical evaluation, no
 
 ## Brand Commitments
 
-None. No existing Fya Social Capital brand, logo, or style guide applies to this app — the current blue/teal palette is a provisional choice, free to evolve.
+Real brand, sourced directly from fyasocialcapital.com and the company's logo file (`logFya.png`), and now binding:
+
+- Primary accent: "verde esencia" `#00d280` (their own CSS class name for it).
+- Dark ink / hero background: `#052224`, used both as their dark-mode background and as text-on-light ink.
+- Logo mark: a geometric "F" built from rounded rectangles, rendered in the primary green — used standalone (without the "FYA / SOCIAL CAPITAL" wordmark) as the app icon and splash mark, extracted from `logFya.png`.
+- Deviation taken deliberately: their marketing site pairs white text on the green CTA button, which measures ~2:1 contrast (fails WCAG AA). This app pairs the same green with the dark ink (`#052224`) as contrast text instead (~9:1), keeping their exact color but not their accessibility gap.
 
 ## Evidence on Hand
 
-Seed data (10 sample credits) provided by the technical-test brief; used for local/demo data, not real customer records.
+- Seed data (10 sample credits) provided by the technical-test brief; used for local/demo data, not real customer records.
+- `logFya.png` (user's Desktop) — the real company logo, mark + wordmark.
+- fyasocialcapital.com — live marketing site, source of the brand palette above.
 
 ## Product Principles
 

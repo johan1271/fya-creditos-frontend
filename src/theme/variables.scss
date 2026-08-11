@@ -1,23 +1,28 @@
 // Light/dark palettes, both defined explicitly (no reliance on Ionic's canned
 // palette stylesheets). Dark is applied/removed via the .ion-palette-dark
 // class by ThemeService (core/theme/theme.service.ts).
+//
+// Brand colors sourced from fyasocialcapital.com: "verde esencia" #00d280
+// (their own CSS class name) and their dark ink/hero background #052224.
+// Button contrast text uses the dark ink instead of white — white-on-#00d280
+// measures ~2:1 (fails WCAG AA); dark-ink-on-#00d280 measures ~9:1.
 
 :root {
   --ion-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
-  --ion-color-primary: #2050c7;
-  --ion-color-primary-rgb: 32, 80, 199;
-  --ion-color-primary-contrast: #ffffff;
-  --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #1c46af;
-  --ion-color-primary-tint: #3662cd;
+  --ion-color-primary: #00d280;
+  --ion-color-primary-rgb: 0, 210, 128;
+  --ion-color-primary-contrast: #052224;
+  --ion-color-primary-contrast-rgb: 5, 34, 36;
+  --ion-color-primary-shade: #00b96f;
+  --ion-color-primary-tint: #1ad78d;
 
-  --ion-color-secondary: #17b6a5;
-  --ion-color-secondary-rgb: 23, 182, 165;
-  --ion-color-secondary-contrast: #00201d;
-  --ion-color-secondary-contrast-rgb: 0, 32, 29;
-  --ion-color-secondary-shade: #14a091;
-  --ion-color-secondary-tint: #2ebdae;
+  --ion-color-secondary: #0ba679;
+  --ion-color-secondary-rgb: 11, 166, 121;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #0a9268;
+  --ion-color-secondary-tint: #23af85;
 
   --ion-color-success: #16a34a;
   --ion-color-success-rgb: 22, 163, 74;
@@ -33,12 +38,12 @@
   --ion-color-danger-shade: #c22121;
   --ion-color-danger-tint: #e13c3c;
 
-  --ion-background-color: #f4f6f9;
-  --ion-background-color-rgb: 244, 246, 249;
-  --ion-text-color: #101b2d;
-  --ion-text-color-rgb: 16, 27, 45;
+  --ion-background-color: #ffffff;
+  --ion-background-color-rgb: 255, 255, 255;
+  --ion-text-color: #052224;
+  --ion-text-color-rgb: 5, 34, 36;
 
-  --app-text-muted: #5a6577;
+  --app-text-muted: #4d6664;
   --app-surface: #ffffff;
 
   --ion-item-background: var(--app-surface);
@@ -49,27 +54,27 @@
 }
 
 :root.ion-palette-dark {
-  --ion-color-primary: #5b8df0;
-  --ion-color-primary-rgb: 91, 141, 240;
-  --ion-color-primary-contrast: #ffffff;
-  --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #507cd3;
-  --ion-color-primary-tint: #6c99f2;
+  --ion-color-primary: #00d280;
+  --ion-color-primary-rgb: 0, 210, 128;
+  --ion-color-primary-contrast: #052224;
+  --ion-color-primary-contrast-rgb: 5, 34, 36;
+  --ion-color-primary-shade: #00b96f;
+  --ion-color-primary-tint: #1ad78d;
 
   --ion-color-secondary: #2dd4be;
   --ion-color-secondary-rgb: 45, 212, 190;
-  --ion-color-secondary-contrast: #00201d;
-  --ion-color-secondary-contrast-rgb: 0, 32, 29;
+  --ion-color-secondary-contrast: #052224;
+  --ion-color-secondary-contrast-rgb: 5, 34, 36;
   --ion-color-secondary-shade: #28bba7;
   --ion-color-secondary-tint: #43d8c4;
 
-  --ion-background-color: #0b0f17;
-  --ion-background-color-rgb: 11, 15, 23;
-  --ion-text-color: #e7eaf0;
-  --ion-text-color-rgb: 231, 234, 240;
+  --ion-background-color: #052224;
+  --ion-background-color-rgb: 5, 34, 36;
+  --ion-text-color: #f2fbf9;
+  --ion-text-color-rgb: 242, 251, 249;
 
-  --app-text-muted: #8b93a3;
-  --app-surface: #141a24;
+  --app-text-muted: #8fa8a6;
+  --app-surface: #0e3234;
 
   --ion-item-background: var(--app-surface);
   --ion-card-background: var(--app-surface);
