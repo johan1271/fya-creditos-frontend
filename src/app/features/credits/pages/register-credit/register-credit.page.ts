@@ -115,7 +115,6 @@ export class RegisterCreditPage {
         this.model.set(this.blankCredit());
         this.creditForm().reset();
 
-        await this.presentToast('Crédito registrado exitosamente.', 'success');
         await Haptics.impact({ style: ImpactStyle.Light }).catch(() => undefined);
       } catch {
         await this.presentToast('No se pudo registrar el crédito. Intenta de nuevo.', 'danger');
