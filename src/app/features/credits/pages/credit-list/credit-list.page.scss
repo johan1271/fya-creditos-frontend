@@ -1,0 +1,40 @@
+.credit-card {
+  border-radius: 16px;
+}
+
+.credit-amount {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--ion-color-primary);
+}
+
+.credit-name {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.credit-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: var(--ion-color-medium);
+}
+
+.state-message {
+  text-align: center;
+  color: var(--ion-color-medium);
+  padding: 48px 16px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px 0 24px;
+  font-size: 0.9rem;
+  color: var(--ion-color-medium);
+}

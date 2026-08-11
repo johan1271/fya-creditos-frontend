@@ -1,0 +1,54 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Search credits</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      placeholder="Name, ID number or sales agent"
+      [debounce]="300"
+      (ionInput)="onSearchChange($event)"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  @if (store.loading()) {
+    @for (row of skeletonRows; track $index) {
+      <ion-card>
+        <ion-card-content>
+          <ion-skeleton-text [animated]="true" style="width: 60%; height: 1.2em"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 40%; height: 1.6em"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 80%; height: 1em"></ion-skeleton-text>
+        </ion-card-content>
+      </ion-card>
+    }
+  } @else if (store.error()) {
+    <div class="state-message">{{ store.error() }}</div>
+  } @else if (store.isEmpty()) {
+    <div class="state-message">No credits found.</div>
+  } @else {
+    @for (credit of store.credits(); track credit.id) {
+      <ion-card class="credit-card">
+        <ion-card-content>
+          <div class="credit-amount">{{ credit.creditAmount | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</div>
+          <div class="credit-name">{{ credit.customerName }}</div>
+          <div class="credit-meta">
+            <span>ID {{ credit.idNumber }}</span>
+            <span>{{ credit.salesAgent }}</span>
+            <span>{{ credit.registeredAt | date: 'mediumDate' }}</span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    }
+
+    <div class="pagination">
+      <ion-button fill="clear" [disabled]="store.page() === 0" (click)="previousPage()">
+        <ion-icon slot="icon-only" [icon]="chevronBackOutline"></ion-icon>
+      </ion-button>
+      <span>Page {{ store.page() + 1 }} of {{ store.totalPages() }}</span>
+      <ion-button fill="clear" [disabled]="store.page() + 1 >= store.totalPages()" (click)="nextPage()">
+        <ion-icon slot="icon-only" [icon]="chevronForwardOutline"></ion-icon>
+      </ion-button>
+    </div>
+  }
+</ion-content>
