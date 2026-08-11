@@ -55,7 +55,9 @@
   --app-accent-text: #00804f;
 
   --ion-item-background: var(--app-surface);
+  --ion-item-color: var(--ion-text-color);
   --ion-card-background: var(--app-surface);
+  --ion-card-color: var(--ion-text-color);
   --ion-toolbar-background: var(--app-surface);
   --ion-tab-bar-background: var(--app-surface);
   --ion-tab-bar-background-focused: var(--app-surface);
@@ -86,7 +88,9 @@
   --app-accent-text: var(--ion-color-primary);
 
   --ion-item-background: var(--app-surface);
+  --ion-item-color: var(--ion-text-color);
   --ion-card-background: var(--app-surface);
+  --ion-card-color: var(--ion-text-color);
   --ion-toolbar-background: var(--app-surface);
   --ion-tab-bar-background: var(--app-surface);
   --ion-tab-bar-background-focused: var(--app-surface);
