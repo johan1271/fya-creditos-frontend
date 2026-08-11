@@ -8,20 +8,32 @@
     <p class="login-subtitle">Ingresa con tu usuario de asesor de ventas</p>
 
     <form novalidate (submit)="onSubmit(); $event.preventDefault()">
-      <ion-item>
-        <ion-label position="stacked">Usuario</ion-label>
-        <ion-input [formField]="loginForm.username" autocomplete="username"></ion-input>
-      </ion-item>
+      <ion-input
+        label="Usuario"
+        label-placement="stacked"
+        fill="outline"
+        shape="round"
+        autocomplete="username"
+        helper-text="Ej: carlos.ramirez"
+        [formField]="loginForm.username"
+        [attr.aria-describedby]="loginForm.username().touched() && loginForm.username().errors().length ? 'username-error' : null"
+      ></ion-input>
       @if (loginForm.username().touched() && loginForm.username().errors().length) {
-        <p class="field-error">{{ loginForm.username().errors()[0].message }}</p>
+        <p class="field-error" id="username-error">{{ loginForm.username().errors()[0].message }}</p>
       }
 
-      <ion-item>
-        <ion-label position="stacked">Contraseña</ion-label>
-        <ion-input type="password" [formField]="loginForm.password" autocomplete="current-password"></ion-input>
-      </ion-item>
+      <ion-input
+        label="Contraseña"
+        label-placement="stacked"
+        fill="outline"
+        shape="round"
+        type="password"
+        autocomplete="current-password"
+        [formField]="loginForm.password"
+        [attr.aria-describedby]="loginForm.password().touched() && loginForm.password().errors().length ? 'password-error' : null"
+      ></ion-input>
       @if (loginForm.password().touched() && loginForm.password().errors().length) {
-        <p class="field-error">{{ loginForm.password().errors()[0].message }}</p>
+        <p class="field-error" id="password-error">{{ loginForm.password().errors()[0].message }}</p>
       }
 
       @if (store.error()) {
@@ -30,6 +42,7 @@
 
       <ion-button
         expand="block"
+        shape="round"
         type="submit"
         class="submit-button"
         [disabled]="loginForm().invalid() || store.loggingIn()"
