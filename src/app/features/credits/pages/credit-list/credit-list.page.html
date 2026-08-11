@@ -23,14 +23,26 @@
 
 <ion-content [fullscreen]="true">
   @if (store.loading()) {
-    @for (row of skeletonRows; track $index) {
-      <ion-card>
-        <ion-card-content>
-          <ion-skeleton-text [animated]="true" style="width: 60%; height: 1.2em"></ion-skeleton-text>
-          <ion-skeleton-text [animated]="true" style="width: 40%; height: 1.6em"></ion-skeleton-text>
-          <ion-skeleton-text [animated]="true" style="width: 80%; height: 1em"></ion-skeleton-text>
-        </ion-card-content>
-      </ion-card>
+    @if (viewMode() === 'table') {
+      <div class="skeleton-table-rows">
+        @for (row of skeletonRows; track $index) {
+          <div class="skeleton-table-row">
+            <ion-skeleton-text [animated]="true" style="width: 30%; height: 1em"></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 20%; height: 1em"></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 25%; height: 1em"></ion-skeleton-text>
+          </div>
+        }
+      </div>
+    } @else {
+      @for (row of skeletonRows; track $index) {
+        <ion-card>
+          <ion-card-content>
+            <ion-skeleton-text [animated]="true" style="width: 60%; height: 1.2em"></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 40%; height: 1.6em"></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 80%; height: 1em"></ion-skeleton-text>
+          </ion-card-content>
+        </ion-card>
+      }
     }
   } @else if (store.error()) {
     <div class="state-message">{{ store.error() }}</div>

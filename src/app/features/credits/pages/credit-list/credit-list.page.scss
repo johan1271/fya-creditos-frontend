@@ -25,6 +25,24 @@ app-brand-icon {
   padding: 48px 16px;
 }
 
+.skeleton-table-rows {
+  margin: 8px 16px 0;
+  border-radius: 12px;
+  border: 1px solid rgba(var(--ion-text-color-rgb), 0.1);
+  overflow: hidden;
+}
+
+.skeleton-table-row {
+  display: flex;
+  gap: 16px;
+  padding: 14px;
+  border-bottom: 1px solid rgba(var(--ion-text-color-rgb), 0.08);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
 .load-more-error {
   display: flex;
   align-items: center;

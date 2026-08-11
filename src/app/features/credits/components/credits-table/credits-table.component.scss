@@ -3,6 +3,10 @@
   margin: 8px 16px 0;
   border-radius: 12px;
   border: 1px solid rgba(var(--ion-text-color-rgb), 0.1);
+  // Persistent hint that there are more columns off to the right — Monto
+  // now sits 2nd so it's visible without scrolling, but Tasa/Plazo/Asesor/
+  // Fecha still need this affordance.
+  box-shadow: inset -16px 0 12px -12px rgba(0, 0, 0, 0.12);
 }
 
 .credits-table {
