@@ -77,3 +77,12 @@
   --ion-tab-bar-background: var(--app-surface);
   --ion-tab-bar-background-focused: var(--app-surface);
 }
+
+// ion-searchbar ships its own --color/--icon-color/--placeholder-color
+// defaults that fall back to hardcoded grays (not our palette) when unset,
+// same category of gap as the tab-bar background above.
+:root ion-searchbar {
+  --color: var(--ion-text-color);
+  --icon-color: var(--app-text-muted);
+  --placeholder-color: var(--app-text-muted);
+}
