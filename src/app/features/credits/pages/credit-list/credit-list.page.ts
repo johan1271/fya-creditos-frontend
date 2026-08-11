@@ -1,11 +1,14 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import {
   calendarOutline,
   cardOutline,
   cashOutline,
   chevronBackOutline,
   chevronForwardOutline,
+  gridOutline,
+  layersOutline,
   personOutline,
 } from 'ionicons/icons';
 import {
@@ -16,7 +19,12 @@ import {
   IonContent,
   IonHeader,
   IonIcon,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonLabel,
   IonSearchbar,
+  IonSegment,
+  IonSegmentButton,
   IonSkeletonText,
   IonTitle,
   IonToolbar,
@@ -27,6 +35,8 @@ import { LogoutButtonComponent } from '../../../../shared/components/logout-butt
 import { ThemeToggleComponent } from '../../../../shared/components/theme-toggle/theme-toggle.component';
 import { CopCurrencyPipe } from '../../../../shared/pipes/cop-currency.pipe';
 import { CreditsStore } from '../../services/credits.store';
+
+type ViewMode = 'cards' | 'table';
 
 @Component({
   selector: 'app-credit-list',
@@ -39,9 +49,14 @@ import { CreditsStore } from '../../services/credits.store';
     IonButtons,
     IonContent,
     IonSearchbar,
+    IonSegment,
+    IonSegmentButton,
+    IonLabel,
     IonCard,
     IonCardContent,
     IonSkeletonText,
+    IonInfiniteScroll,
+    IonInfiniteScrollContent,
     IonButton,
     IonIcon,
     DatePipe,
@@ -53,12 +68,16 @@ import { CreditsStore } from '../../services/credits.store';
 })
 export class CreditListPage implements OnInit {
   protected readonly store = inject(CreditsStore);
+  protected readonly viewMode = signal<ViewMode>('cards');
+
   protected readonly chevronBackOutline = chevronBackOutline;
   protected readonly chevronForwardOutline = chevronForwardOutline;
   protected readonly cashOutline = cashOutline;
   protected readonly cardOutline = cardOutline;
   protected readonly personOutline = personOutline;
   protected readonly calendarOutline = calendarOutline;
+  protected readonly layersOutline = layersOutline;
+  protected readonly gridOutline = gridOutline;
   protected readonly skeletonRows = Array.from({ length: 4 });
 
   ngOnInit(): void {
@@ -67,6 +86,19 @@ export class CreditListPage implements OnInit {
 
   onSearchChange(event: CustomEvent<{ value?: string | null }>): void {
     this.store.search(event.detail.value ?? '');
+  }
+
+  onViewModeChange(event: CustomEvent<{ value?: string | number }>): void {
+    const value = event.detail.value;
+    if (value === 'cards' || value === 'table') {
+      this.viewMode.set(value);
+      this.store.search(this.store.searchTerm(), 0);
+    }
+  }
+
+  async onIonInfinite(event: Event): Promise<void> {
+    await firstValueFrom(this.store.loadMore());
+    (event.target as HTMLIonInfiniteScrollElement).complete();
   }
 
   previousPage(): void {
