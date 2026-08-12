@@ -10,8 +10,8 @@ export class CreditApiService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiUrl}/credits`;
 
-  search(term: string, page: number, size: number): Observable<PagedResponseDto<CreditResponseDto>> {
-    const params = new HttpParams().set('q', term).set('page', page).set('size', size);
+  search(term: string, page: number, size: number, sort: string): Observable<PagedResponseDto<CreditResponseDto>> {
+    const params = new HttpParams().set('q', term).set('page', page).set('size', size).set('sort', sort);
     return this.http.get<PagedResponseDto<CreditResponseDto>>(this.baseUrl, { params });
   }
 

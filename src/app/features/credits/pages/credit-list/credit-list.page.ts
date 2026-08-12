@@ -7,13 +7,18 @@ import {
   IonCardContent,
   IonContent,
   IonHeader,
+  IonIcon,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
+  IonItem,
+  IonList,
+  IonPopover,
   IonSearchbar,
   IonSkeletonText,
   IonTitle,
   IonToolbar,
 } from '@ionic/angular/standalone';
+import { checkmarkOutline, swapVerticalOutline } from 'ionicons/icons';
 
 import { BrandIconComponent } from '../../../../shared/components/brand-icon/brand-icon.component';
 import { LogoutButtonComponent } from '../../../../shared/components/logout-button/logout-button.component';
@@ -41,6 +46,10 @@ import { CreditsStore } from '../../services/credits.store';
     IonSkeletonText,
     IonInfiniteScroll,
     IonInfiniteScrollContent,
+    IonIcon,
+    IonPopover,
+    IonList,
+    IonItem,
     ThemeToggleComponent,
     LogoutButtonComponent,
     BrandIconComponent,
@@ -55,12 +64,27 @@ export class CreditListPage implements OnInit {
   protected readonly viewMode = signal<CreditsViewMode>('cards');
   protected readonly skeletonRows = Array.from({ length: 4 });
 
+  protected readonly checkmarkOutline = checkmarkOutline;
+  protected readonly swapVerticalOutline = swapVerticalOutline;
+
+  protected readonly sortOptions: ReadonlyArray<{ value: string; label: string }> = [
+    { value: 'registeredAt,desc', label: 'Fecha: más reciente primero' },
+    { value: 'registeredAt,asc', label: 'Fecha: más antigua primero' },
+    { value: 'creditAmount,desc', label: 'Monto: mayor a menor' },
+    { value: 'creditAmount,asc', label: 'Monto: menor a mayor' },
+  ];
+
   ngOnInit(): void {
     this.store.search('');
   }
 
   onSearchChange(event: CustomEvent<{ value?: string | null }>): void {
     this.store.search(event.detail.value ?? '');
+  }
+
+  onSortChange(sort: string, popover: IonPopover): void {
+    this.store.setSort(sort);
+    void popover.dismiss();
   }
 
   onViewModeChange(mode: CreditsViewMode): void {

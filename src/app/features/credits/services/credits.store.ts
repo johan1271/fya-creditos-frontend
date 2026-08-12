@@ -7,6 +7,7 @@ import { Credit } from '../models/credit.model';
 import { CreditApiService } from './credit-api.service';
 
 const DEFAULT_PAGE_SIZE = 10;
+const DEFAULT_SORT = 'registeredAt,desc';
 
 interface CachedPage {
   credits: Credit[];
@@ -34,6 +35,7 @@ export class CreditsStore {
   private readonly _totalPages = signal(0);
   private readonly _totalElements = signal(0);
   private readonly _searchTerm = signal('');
+  private readonly _sort = signal(DEFAULT_SORT);
   private readonly _hasMore = signal(false);
   private readonly _loadMoreError = signal<string | null>(null);
 
@@ -46,12 +48,14 @@ export class CreditsStore {
   readonly totalPages = this._totalPages.asReadonly();
   readonly totalElements = this._totalElements.asReadonly();
   readonly searchTerm = this._searchTerm.asReadonly();
+  readonly sort = this._sort.asReadonly();
   readonly hasMore = this._hasMore.asReadonly();
   readonly loadMoreError = this._loadMoreError.asReadonly();
   readonly isEmpty = computed(() => !this._loading() && this._credits().length === 0);
 
   search(term: string, page = 0, size = DEFAULT_PAGE_SIZE): void {
-    const cached = this.pageCache.get(this.cacheKey(term, page, size));
+    const sort = this._sort();
+    const cached = this.pageCache.get(this.cacheKey(term, page, size, sort));
     if (cached) {
       this._searchTerm.set(term);
       this._error.set(null);
@@ -66,7 +70,7 @@ export class CreditsStore {
     this._searchTerm.set(term);
 
     this.api
-      .search(term, page, size)
+      .search(term, page, size, sort)
       .pipe(finalize(() => this._loading.set(false)))
       .subscribe({
         next: (response) => {
@@ -77,11 +81,22 @@ export class CreditsStore {
             totalElements: response.totalElements,
             hasMore: !response.last,
           };
-          this.pageCache.set(this.cacheKey(term, response.page, size), cachedPage);
+          this.pageCache.set(this.cacheKey(term, response.page, size, sort), cachedPage);
           this.applyPage(cachedPage);
         },
         error: () => this._error.set('No se pudieron cargar los créditos. Intenta de nuevo.'),
       });
+  }
+
+  // Sort order changes the meaning of "page N" entirely, so this always
+  // starts over from page 0 with a clean cache, same as a new search term.
+  setSort(sort: string): void {
+    if (sort === this._sort()) {
+      return;
+    }
+    this._sort.set(sort);
+    this.pageCache.clear();
+    this.search(this._searchTerm(), 0);
   }
 
   loadMore(): Observable<void> {
@@ -92,9 +107,10 @@ export class CreditsStore {
     this._loadingMore.set(true);
     this._loadMoreError.set(null);
     const term = this._searchTerm();
+    const sort = this._sort();
     const nextPage = this._page() + 1;
 
-    return this.api.search(term, nextPage, DEFAULT_PAGE_SIZE).pipe(
+    return this.api.search(term, nextPage, DEFAULT_PAGE_SIZE, sort).pipe(
       tap((response) => {
         const newCredits = toCreditList(response.content);
         this._credits.update((current) => [...current, ...newCredits]);
@@ -102,7 +118,7 @@ export class CreditsStore {
         this._totalPages.set(response.totalPages);
         this._totalElements.set(response.totalElements);
         this._hasMore.set(!response.last);
-        this.pageCache.set(this.cacheKey(term, response.page, DEFAULT_PAGE_SIZE), {
+        this.pageCache.set(this.cacheKey(term, response.page, DEFAULT_PAGE_SIZE, sort), {
           credits: newCredits,
           page: response.page,
           totalPages: response.totalPages,
@@ -142,7 +158,7 @@ export class CreditsStore {
     this._hasMore.set(cachedPage.hasMore);
   }
 
-  private cacheKey(term: string, page: number, size: number): string {
-    return `${term}::${page}::${size}`;
+  private cacheKey(term: string, page: number, size: number, sort: string): string {
+    return `${term}::${page}::${size}::${sort}`;
   }
 }

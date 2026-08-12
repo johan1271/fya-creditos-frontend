@@ -16,6 +16,23 @@
         [debounce]="300"
         (ionInput)="onSearchChange($event)"
       ></ion-searchbar>
+      <ion-button id="sort-trigger" fill="clear" class="sort-button" aria-label="Ordenar créditos">
+        <ion-icon slot="icon-only" [icon]="swapVerticalOutline"></ion-icon>
+      </ion-button>
+      <ion-popover #sortPopover trigger="sort-trigger" side="bottom" alignment="end">
+        <ng-template>
+          <ion-list>
+            @for (option of sortOptions; track option.value) {
+              <ion-item button [detail]="false" (click)="onSortChange(option.value, sortPopover)">
+                {{ option.label }}
+                @if (store.sort() === option.value) {
+                  <ion-icon slot="end" [icon]="checkmarkOutline" color="primary"></ion-icon>
+                }
+              </ion-item>
+            }
+          </ion-list>
+        </ng-template>
+      </ion-popover>
       <app-view-mode-switch [value]="viewMode()" (valueChange)="onViewModeChange($event)"></app-view-mode-switch>
     </div>
   </ion-toolbar>
