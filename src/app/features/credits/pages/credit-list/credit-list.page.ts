@@ -65,7 +65,14 @@ export class CreditListPage implements OnInit {
 
   onViewModeChange(mode: CreditsViewMode): void {
     this.viewMode.set(mode);
-    this.store.search(this.store.searchTerm(), 0);
+
+    // Cards accumulate pages via infinite scroll while the table shows one
+    // page at a time, so switching views resets to page 0 for a consistent
+    // starting point. Skip the request when we're already there — it would
+    // just re-fetch data we already have in `store.credits()`.
+    if (this.store.page() !== 0) {
+      this.store.search(this.store.searchTerm(), 0);
+    }
   }
 
   async onIonInfinite(event: Event): Promise<void> {

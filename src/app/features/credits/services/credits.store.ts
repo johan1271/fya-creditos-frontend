@@ -8,9 +8,22 @@ import { CreditApiService } from './credit-api.service';
 
 const DEFAULT_PAGE_SIZE = 10;
 
+interface CachedPage {
+  credits: Credit[];
+  page: number;
+  totalPages: number;
+  totalElements: number;
+  hasMore: boolean;
+}
+
 @Injectable({ providedIn: 'root' })
 export class CreditsStore {
   private readonly api = inject(CreditApiService);
+
+  // Keyed by term/page/size so revisiting a page (e.g. table pagination
+  // going back to a page already fetched) reuses it instead of re-fetching.
+  // Cleared on register(), since a new credit shifts every page's content.
+  private readonly pageCache = new Map<string, CachedPage>();
 
   private readonly _credits = signal<Credit[]>([]);
   private readonly _loading = signal(false);
@@ -38,6 +51,15 @@ export class CreditsStore {
   readonly isEmpty = computed(() => !this._loading() && this._credits().length === 0);
 
   search(term: string, page = 0, size = DEFAULT_PAGE_SIZE): void {
+    const cached = this.pageCache.get(this.cacheKey(term, page, size));
+    if (cached) {
+      this._searchTerm.set(term);
+      this._error.set(null);
+      this._loadMoreError.set(null);
+      this.applyPage(cached);
+      return;
+    }
+
     this._loading.set(true);
     this._error.set(null);
     this._loadMoreError.set(null);
@@ -48,11 +70,15 @@ export class CreditsStore {
       .pipe(finalize(() => this._loading.set(false)))
       .subscribe({
         next: (response) => {
-          this._credits.set(toCreditList(response.content));
-          this._page.set(response.page);
-          this._totalPages.set(response.totalPages);
-          this._totalElements.set(response.totalElements);
-          this._hasMore.set(!response.last);
+          const cachedPage: CachedPage = {
+            credits: toCreditList(response.content),
+            page: response.page,
+            totalPages: response.totalPages,
+            totalElements: response.totalElements,
+            hasMore: !response.last,
+          };
+          this.pageCache.set(this.cacheKey(term, response.page, size), cachedPage);
+          this.applyPage(cachedPage);
         },
         error: () => this._error.set('No se pudieron cargar los créditos. Intenta de nuevo.'),
       });
@@ -65,15 +91,24 @@ export class CreditsStore {
 
     this._loadingMore.set(true);
     this._loadMoreError.set(null);
+    const term = this._searchTerm();
     const nextPage = this._page() + 1;
 
-    return this.api.search(this._searchTerm(), nextPage, DEFAULT_PAGE_SIZE).pipe(
+    return this.api.search(term, nextPage, DEFAULT_PAGE_SIZE).pipe(
       tap((response) => {
-        this._credits.update((current) => [...current, ...toCreditList(response.content)]);
+        const newCredits = toCreditList(response.content);
+        this._credits.update((current) => [...current, ...newCredits]);
         this._page.set(response.page);
         this._totalPages.set(response.totalPages);
         this._totalElements.set(response.totalElements);
         this._hasMore.set(!response.last);
+        this.pageCache.set(this.cacheKey(term, response.page, DEFAULT_PAGE_SIZE), {
+          credits: newCredits,
+          page: response.page,
+          totalPages: response.totalPages,
+          totalElements: response.totalElements,
+          hasMore: !response.last,
+        });
       }),
       map(() => undefined),
       catchError(() => {
@@ -90,8 +125,24 @@ export class CreditsStore {
     this._registering.set(true);
     return this.api.register(request).pipe(
       map(toCredit),
-      tap(() => this.search(this._searchTerm(), 0, DEFAULT_PAGE_SIZE)),
+      tap(() => {
+        // A new credit shifts every page's contents, so any cached page is stale.
+        this.pageCache.clear();
+        this.search(this._searchTerm(), 0, DEFAULT_PAGE_SIZE);
+      }),
       finalize(() => this._registering.set(false)),
     );
+  }
+
+  private applyPage(cachedPage: CachedPage): void {
+    this._credits.set(cachedPage.credits);
+    this._page.set(cachedPage.page);
+    this._totalPages.set(cachedPage.totalPages);
+    this._totalElements.set(cachedPage.totalElements);
+    this._hasMore.set(cachedPage.hasMore);
+  }
+
+  private cacheKey(term: string, page: number, size: number): string {
+    return `${term}::${page}::${size}`;
   }
 }
