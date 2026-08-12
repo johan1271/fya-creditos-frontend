@@ -45,7 +45,7 @@
       shape="round"
       type="number"
       inputmode="decimal"
-      helper-text="En pesos colombianos (COP)"
+      helper-text="En pesos colombianos (COP), sin puntos ni comas. Ej: 7800000"
       [formField]="creditForm.creditAmount"
       [attr.aria-describedby]="creditForm.creditAmount().touched() && creditForm.creditAmount().errors().length ? 'creditAmount-error' : null"
     ></ion-input>
@@ -60,6 +60,7 @@
       shape="round"
       type="number"
       inputmode="decimal"
+      helper-text="Ej: 2.5"
       [formField]="creditForm.interestRate"
       [attr.aria-describedby]="creditForm.interestRate().touched() && creditForm.interestRate().errors().length ? 'interestRate-error' : null"
     ></ion-input>
@@ -74,7 +75,8 @@
       shape="round"
       type="number"
       inputmode="numeric"
-      helper-text="Entre 1 y 360 meses"
+      step="1"
+      helper-text="Entre 1 y 360 meses, sin decimales"
       [formField]="creditForm.termMonths"
       [attr.aria-describedby]="creditForm.termMonths().touched() && creditForm.termMonths().errors().length ? 'termMonths-error' : null"
     ></ion-input>

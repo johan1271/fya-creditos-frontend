@@ -1,5 +1,5 @@
 import { Component, effect, inject, signal } from '@angular/core';
-import { form, FormField, max, maxLength, min, minLength, required, submit, validate } from '@angular/forms/signals';
+import { form, FormField, max, maxLength, min, minLength, pattern, required, submit, validate } from '@angular/forms/signals';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { firstValueFrom } from 'rxjs';
 import {
@@ -65,7 +65,11 @@ export class RegisterCreditPage {
 
   protected readonly creditForm = form(this.model, (schemaPath) => {
     required(schemaPath.customerName, { message: 'El nombre del cliente es obligatorio' });
+    minLength(schemaPath.customerName, 2, { message: 'El nombre del cliente debe tener al menos 2 caracteres' });
     maxLength(schemaPath.customerName, 150, { message: 'El nombre del cliente debe tener máximo 150 caracteres' });
+    validate(schemaPath.customerName, ({ value }) =>
+      value().trim().length > 0 ? undefined : { kind: 'blank', message: 'El nombre del cliente no puede ser solo espacios' },
+    );
 
     required(schemaPath.idNumber, { message: 'El número de identificación es obligatorio' });
     minLength(schemaPath.idNumber, 6, {
@@ -74,10 +78,14 @@ export class RegisterCreditPage {
     maxLength(schemaPath.idNumber, 20, {
       message: 'El número de identificación debe tener máximo 20 caracteres',
     });
+    pattern(schemaPath.idNumber, /^\d+$/, { message: 'El número de identificación debe contener solo números' });
 
     validate(schemaPath.creditAmount, ({ value }) =>
       value() > 0 ? undefined : { kind: 'positive', message: 'El monto del crédito debe ser mayor que 0' },
     );
+    max(schemaPath.creditAmount, 1_000_000_000, {
+      message: 'El monto del crédito debe ser como máximo $1.000.000.000',
+    });
 
     validate(schemaPath.interestRate, ({ value }) =>
       value() > 0 ? undefined : { kind: 'positive', message: 'La tasa de interés debe ser mayor que 0' },
@@ -86,9 +94,16 @@ export class RegisterCreditPage {
 
     min(schemaPath.termMonths, 1, { message: 'El plazo debe ser de al menos 1 mes' });
     max(schemaPath.termMonths, 360, { message: 'El plazo debe ser máximo 360 meses' });
+    validate(schemaPath.termMonths, ({ value }) =>
+      Number.isInteger(value()) ? undefined : { kind: 'integer', message: 'El plazo debe ser un número entero de meses' },
+    );
 
     required(schemaPath.salesAgent, { message: 'El asesor de ventas es obligatorio' });
+    minLength(schemaPath.salesAgent, 2, { message: 'El asesor de ventas debe tener al menos 2 caracteres' });
     maxLength(schemaPath.salesAgent, 150, { message: 'El asesor de ventas debe tener máximo 150 caracteres' });
+    validate(schemaPath.salesAgent, ({ value }) =>
+      value().trim().length > 0 ? undefined : { kind: 'blank', message: 'El asesor de ventas no puede ser solo espacios' },
+    );
   });
 
   constructor() {
