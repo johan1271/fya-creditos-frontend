@@ -1,0 +1,17 @@
+.boot-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ion-background-color);
+
+  img {
+    // logo-mark.png is 1455x1280 (not square) — constrain by height only so
+    // it isn't stretched/squished, same as everywhere else it's used, and
+    // matches the static index.html splash exactly to avoid a visible jump.
+    height: 96px;
+    width: auto;
+  }
+}

@@ -1,3 +1,9 @@
 <ion-app>
   <ion-router-outlet></ion-router-outlet>
+
+  @if (showBootSplash()) {
+    <div class="boot-splash">
+      <img src="assets/icon/logo-mark.png" alt="" />
+    </div>
+  }
 </ion-app>

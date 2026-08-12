@@ -17,10 +17,58 @@
   <!-- add to homescreen for ios -->
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+  <!--
+    Boot splash: on a cold start (e.g. the OS killed the app in the background
+    and the user reopens it), there's a gap between the first paint and
+    Angular finishing bootstrap + resolving the initial route, which otherwise
+    shows as a plain white flash, then a flash of the themed background with
+    no content. This inline style/script pair renders the correct background
+    color and a centered logo immediately, before any JS bundle has to load.
+    Colors are hardcoded (not var(--ion-*)) because this markup exists before
+    the app's stylesheet reflects the theme class below — keep in sync with
+    the light/dark values in src/theme/variables.scss.
+  -->
+  <style>
+    #app-boot-splash {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+    }
+
+    html.ion-palette-dark #app-boot-splash {
+      background: #052224;
+    }
+
+    #app-boot-splash img {
+      /* logo-mark.png is 1455x1280 (not square) — constrain by height only
+         so it isn't stretched/squished, same as everywhere else it's used. */
+      height: 96px;
+      width: auto;
+    }
+  </style>
+  <script>
+    (function () {
+      // Mirrors ThemeService.resolveInitialPreference() so the very first
+      // paint already matches the user's stored/system theme preference.
+      var stored = localStorage.getItem('fya-theme-preference');
+      var isDark = stored === 'dark' || (stored !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (isDark) {
+        document.documentElement.classList.add('ion-palette-dark');
+      }
+    })();
+  </script>
 </head>
 
 <body>
-  <app-root></app-root>
+  <app-root>
+    <div id="app-boot-splash">
+      <img src="assets/icon/logo-mark.png" alt="" />
+    </div>
+  </app-root>
 </body>
 
 </html>
