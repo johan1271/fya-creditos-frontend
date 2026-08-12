@@ -16,11 +16,7 @@
         autocomplete="username"
         placeholder="Ingresa tu usuario"
         [formField]="loginForm.username"
-        [attr.aria-describedby]="loginForm.username().touched() && loginForm.username().errors().length ? 'username-error' : null"
       ></ion-input>
-      @if (loginForm.username().touched() && loginForm.username().errors().length) {
-        <p class="field-error" id="username-error">{{ loginForm.username().errors()[0].message }}</p>
-      }
 
       <ion-input
         label="Contraseña"
@@ -31,11 +27,7 @@
         autocomplete="current-password"
         placeholder="••••••••••••••"
         [formField]="loginForm.password"
-        [attr.aria-describedby]="loginForm.password().touched() && loginForm.password().errors().length ? 'password-error' : null"
       ></ion-input>
-      @if (loginForm.password().touched() && loginForm.password().errors().length) {
-        <p class="field-error" id="password-error">{{ loginForm.password().errors()[0].message }}</p>
-      }
 
       @if (store.error()) {
         <p class="field-error">{{ store.error() }}</p>
