@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { calendarOutline, cardOutline, cashOutline, personOutline } from 'ionicons/icons';
+import { calendarOutline, cardOutline, cashOutline, personOutline, repeatOutline } from 'ionicons/icons';
 import { IonCard, IonCardContent, IonIcon } from '@ionic/angular/standalone';
 
 import { CopCurrencyPipe } from '../../../../shared/pipes/cop-currency.pipe';
@@ -19,4 +19,5 @@ export class CreditCardComponent {
   protected readonly cardOutline = cardOutline;
   protected readonly personOutline = personOutline;
   protected readonly calendarOutline = calendarOutline;
+  protected readonly repeatOutline = repeatOutline;
 }

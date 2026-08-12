@@ -7,4 +7,6 @@ export interface Credit {
   termMonths: number;
   salesAgent: string;
   registeredAt: Date;
+  /** Computed client-side (French amortization) — not stored by the backend. */
+  monthlyPayment: number;
 }

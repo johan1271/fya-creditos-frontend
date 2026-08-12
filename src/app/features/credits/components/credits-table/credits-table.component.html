@@ -7,6 +7,7 @@
         <th>Identificación</th>
         <th>Tasa</th>
         <th>Plazo</th>
+        <th>Cuota mensual</th>
         <th>Asesor</th>
         <th>Fecha</th>
       </tr>
@@ -19,6 +20,7 @@
           <td>{{ credit.idNumber }}</td>
           <td class="numeric">{{ credit.interestRate }}%</td>
           <td class="numeric">{{ credit.termMonths }} meses</td>
+          <td class="numeric">{{ credit.monthlyPayment | copCurrency }}</td>
           <td>{{ credit.salesAgent }}</td>
           <td>{{ credit.registeredAt | date: 'mediumDate' }}</td>
         </tr>

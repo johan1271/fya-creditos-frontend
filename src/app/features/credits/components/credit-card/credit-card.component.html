@@ -7,7 +7,9 @@
     ', asesor ' +
     credit().salesAgent +
     ', registrado el ' +
-    (credit().registeredAt | date: 'mediumDate')
+    (credit().registeredAt | date: 'mediumDate') +
+    ', cuota mensual ' +
+    (credit().monthlyPayment | copCurrency)
   "
 >
   <ion-card class="credit-card">
@@ -30,6 +32,9 @@
         </span>
         <span>
           <ion-icon [icon]="calendarOutline"></ion-icon>{{ credit().registeredAt | date: 'mediumDate' }}
+        </span>
+        <span>
+          <ion-icon [icon]="repeatOutline"></ion-icon>{{ credit().monthlyPayment | copCurrency }}/mes
         </span>
       </div>
     </ion-card-content>
