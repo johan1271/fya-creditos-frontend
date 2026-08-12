@@ -46,6 +46,11 @@
   --app-text-muted: #4d6664;
   --app-surface: #ffffff;
 
+  // Shared background for the header's searchbar and view-mode-switch pills:
+  // a translucent tint of the text color over the header, so both stand out
+  // as distinct interactive fields instead of blending into the toolbar.
+  --app-pill-background: rgba(var(--ion-text-color-rgb), 0.12);
+
   // The vibrant brand green (--ion-color-primary) measures ~2:1 against a
   // white surface — fine for icons/backgrounds paired with dark-ink text,
   // but a hard WCAG failure when used AS text color (e.g. the credit
@@ -100,6 +105,9 @@
 // defaults that fall back to hardcoded grays (not our palette) when unset,
 // same category of gap as the tab-bar background above.
 :root ion-searchbar {
+  --background: var(--app-pill-background);
+  --border-radius: 10px;
+  --box-shadow: none;
   --color: var(--ion-text-color);
   --icon-color: var(--app-text-muted);
   --placeholder-color: var(--app-text-muted);

@@ -2,30 +2,55 @@
   display: block;
   flex: 0 0 92px;
   width: 92px;
+  height: 42px;
 }
 
 ion-segment {
-  background: rgba(var(--ion-text-color-rgb), 0.06);
-  border-radius: 12px;
+  // ion-segment inside an ion-toolbar auto-inherits the toolbar's own
+  // --min-height (56px default) via its ".in-toolbar" host class, which
+  // otherwise wins over our height:100% below (min-height always wins over
+  // a smaller height in the box model).
+  --min-height: 44px;
+  background: var(--app-pill-background);
+  border-radius: 10px;
   padding: 3px;
   width: 100%;
+  height: 100%;
 }
 
 ion-segment-button {
-  --border-radius: 9px;
-  --background-checked: var(--app-surface);
-  --indicator-color: transparent;
-  --indicator-box-shadow: none;
+  --border-radius: 8px;
+  --background-checked: var(--ion-background-color);
   --color: var(--app-text-muted);
   --color-checked: var(--app-accent-text);
+  --padding-top: 0;
+  --padding-bottom: 0;
   margin: 0;
   --padding-start: 12px;
   --padding-end: 12px;
   min-width: 0;
-  min-height: 33px;
+  min-height: 36px;
 
   ion-icon {
     font-size: 19px;
     margin: 0;
+  }
+
+  // Ionic's md button-native hardcodes border-radius: 0 regardless of the
+  // host's --border-radius, so the tap/hover ripple overlay renders as an
+  // unrounded square that overflows the button's rounded corners. The
+  // "native" shadow part is the one documented way to reach in and fix it.
+  &::part(native) {
+    border-radius: inherit;
+  }
+
+  // We rely on --background-checked on the button itself for the selected
+  // state, not Ionic's sliding indicator bar. Inside an ion-toolbar, that
+  // indicator's color falls back to --ion-toolbar-segment-indicator-color
+  // (which we never set) rather than our --indicator-color, so it still
+  // renders with a default opaque color and slides/fades across the icon
+  // on every selection change. Hiding it outright avoids that artifact.
+  &::part(indicator) {
+    display: none;
   }
 }
