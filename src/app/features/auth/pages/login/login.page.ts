@@ -2,7 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { form, FormField, required, submit } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { IonButton, IonContent, IonInput } from '@ionic/angular/standalone';
+import { IonButton, IonContent, IonIcon, IonInput } from '@ionic/angular/standalone';
+import { logInOutline } from 'ionicons/icons';
 
 import { AuthStore } from '../../services/auth.store';
 
@@ -12,11 +13,13 @@ const EMPTY_CREDENTIALS = { username: '', password: '' };
   selector: 'app-login',
   templateUrl: 'login.page.html',
   styleUrls: ['login.page.scss'],
-  imports: [IonContent, IonInput, IonButton, FormField],
+  imports: [IonContent, IonInput, IonButton, IonIcon, FormField],
 })
 export class LoginPage {
   protected readonly store = inject(AuthStore);
   private readonly router = inject(Router);
+
+  protected readonly logInOutline = logInOutline;
 
   protected readonly model = signal({ ...EMPTY_CREDENTIALS });
 

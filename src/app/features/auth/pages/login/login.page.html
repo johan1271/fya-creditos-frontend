@@ -14,7 +14,7 @@
         fill="outline"
         shape="round"
         autocomplete="username"
-        helper-text="Ej: carlos.ramirez"
+        placeholder="Ingresa tu usuario"
         [formField]="loginForm.username"
         [attr.aria-describedby]="loginForm.username().touched() && loginForm.username().errors().length ? 'username-error' : null"
       ></ion-input>
@@ -29,6 +29,7 @@
         shape="round"
         type="password"
         autocomplete="current-password"
+        placeholder="••••••••••••••"
         [formField]="loginForm.password"
         [attr.aria-describedby]="loginForm.password().touched() && loginForm.password().errors().length ? 'password-error' : null"
       ></ion-input>
@@ -50,6 +51,7 @@
         @if (store.loggingIn()) {
           Ingresando…
         } @else {
+          <ion-icon [icon]="logInOutline" slot="start"></ion-icon>
           Ingresar
         }
       </ion-button>
