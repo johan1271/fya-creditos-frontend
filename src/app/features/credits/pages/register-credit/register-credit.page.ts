@@ -1,5 +1,5 @@
 import { Component, effect, inject, signal } from '@angular/core';
-import { form, FormField, max, maxLength, min, required, submit, validate } from '@angular/forms/signals';
+import { form, FormField, max, maxLength, min, minLength, required, submit, validate } from '@angular/forms/signals';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { firstValueFrom } from 'rxjs';
 import {
@@ -68,6 +68,9 @@ export class RegisterCreditPage {
     maxLength(schemaPath.customerName, 150, { message: 'El nombre del cliente debe tener máximo 150 caracteres' });
 
     required(schemaPath.idNumber, { message: 'El número de identificación es obligatorio' });
+    minLength(schemaPath.idNumber, 6, {
+      message: 'El número de identificación debe tener al menos 6 caracteres',
+    });
     maxLength(schemaPath.idNumber, 20, {
       message: 'El número de identificación debe tener máximo 20 caracteres',
     });
