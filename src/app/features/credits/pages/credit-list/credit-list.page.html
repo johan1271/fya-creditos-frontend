@@ -10,16 +10,18 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
-    <div class="search-row">
-      <ion-searchbar
-        placeholder="Nombre, ID o asesor"
-        [debounce]="300"
-        (ionInput)="onSearchChange($event)"
-      ></ion-searchbar>
+    <ion-searchbar
+      placeholder="Nombre, ID o asesor"
+      [debounce]="300"
+      (ionInput)="onSearchChange($event)"
+    ></ion-searchbar>
+  </ion-toolbar>
+  <ion-toolbar>
+    <div class="controls-row">
       <ion-button id="sort-trigger" fill="clear" class="sort-button" aria-label="Ordenar créditos">
         <ion-icon slot="icon-only" [icon]="swapVerticalOutline"></ion-icon>
       </ion-button>
-      <ion-popover #sortPopover trigger="sort-trigger" side="bottom" alignment="end">
+      <ion-popover #sortPopover trigger="sort-trigger" side="bottom" alignment="start">
         <ng-template>
           <ion-list>
             @for (option of sortOptions; track option.value) {
