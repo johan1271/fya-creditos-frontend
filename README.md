@@ -6,7 +6,8 @@ Ionic + Angular frontend for Fya Social Capital's credit registration/lookup tec
 
 - **Backend repo:** https://github.com/johan1271/fya-creditos-backend
 - **Live backend API:** https://fya-creditos-backend.onrender.com
-- **Signed Android APK:** https://github.com/johan1271/fya-creditos-frontend/releases/tag/v1.0.0
+- **Live web app:** https://fya-creditos-frontend.netlify.app
+- **Signed Android APK:** https://github.com/johan1271/fya-creditos-frontend/releases/tag/v1.1.0
 - **Test credentials:** see the [backend README](https://github.com/johan1271/fya-creditos-backend#test-credentials)
 
 ## Stack
@@ -65,6 +66,16 @@ cd android
 
 Without `android/keystore.properties` present, `assembleRelease` still runs but produces an **unsigned** APK that Android won't install.
 
+## Web deploy (Netlify)
+
+`netlify.toml` at the repo root has the build command, publish directory, and the SPA fallback redirect Angular's router needs (a direct load/refresh on a path like `/tabs/register` must serve `index.html`, not 404). Once linked (`netlify link`), deploy with:
+
+```bash
+netlify deploy --dir=www --prod
+```
+
+The backend's CORS config needs the deployed origin in its allowed list (`CORS_ALLOWED_ORIGINS` — see the backend README) or the browser blocks every API call with a CORS error even though the page itself loads fine.
+
 ## Environments
 
 | File | Used by | `apiUrl` |
@@ -89,7 +100,8 @@ Frontend Ionic + Angular para la prueba técnica de registro/consulta de crédit
 
 - **Repo del backend:** https://github.com/johan1271/fya-creditos-backend
 - **API del backend en vivo:** https://fya-creditos-backend.onrender.com
-- **APK firmado de Android:** https://github.com/johan1271/fya-creditos-frontend/releases/tag/v1.0.0
+- **App web en vivo:** https://fya-creditos-frontend.netlify.app
+- **APK firmado de Android:** https://github.com/johan1271/fya-creditos-frontend/releases/tag/v1.1.0
 - **Credenciales de prueba:** ver el [README del backend](https://github.com/johan1271/fya-creditos-backend#credenciales-de-prueba)
 
 ## Stack
@@ -147,6 +159,16 @@ cd android
 ```
 
 Sin `android/keystore.properties` presente, `assembleRelease` corre igual pero genera un APK **sin firmar** que Android no va a instalar.
+
+## Deploy web (Netlify)
+
+`netlify.toml` en la raíz del repo tiene el comando de build, el directorio a publicar, y el redirect de SPA que necesita el router de Angular (una carga directa o un refresh en una ruta como `/tabs/register` debe servir `index.html`, no dar 404). Una vez vinculado (`netlify link`), se despliega con:
+
+```bash
+netlify deploy --dir=www --prod
+```
+
+La configuración de CORS del backend necesita el dominio desplegado en su lista de permitidos (`CORS_ALLOWED_ORIGINS` — ver el README del backend) o el navegador bloquea todas las peticiones a la API con un error de CORS aunque la página cargue bien.
 
 ## Entornos
 

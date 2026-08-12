@@ -27,6 +27,7 @@ src/app/
 src/theme/variables.scss   All theme tokens (light + dark), Ionic component overrides
 src/index.html             Boot splash markup/script (see "Conventions" below)
 android/                    Capacitor-generated native project — see "Do not touch"
+netlify.toml                Web deploy config (build command, publish dir, SPA fallback redirect)
 ```
 
 ## Commands
@@ -66,3 +67,4 @@ android/                    Capacitor-generated native project — see "Do not t
 - **Debug and release APKs have different signing certs** — installing a release APK over a debug install of the same `applicationId` fails; `adb uninstall com.fya.creditos` first.
 - **Render free tier cold start** — the first API call after ~15 min of backend inactivity can take 30-60s. Don't mistake that for a broken build when testing the APK after a break.
 - **Rate limiting is backend-side** (20 req/min/IP) — rapid manual re-testing (register/search loops) can hit `429`; it's not a frontend bug if it does.
+- **A new web deploy origin needs backend CORS updated too** — the Netlify URL (or any new one) has to be added to the backend's `CORS_ALLOWED_ORIGINS` (env var if set explicitly on Render, otherwise the code default in `application.properties`) or every API call from that origin fails with a CORS error despite the page loading fine.

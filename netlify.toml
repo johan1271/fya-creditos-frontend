@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build -- --configuration production"
+  publish = "www"
+
+# Angular uses path-based routing (no #), so a direct load or refresh on e.g.
+# /tabs/register needs the static host to fall back to index.html instead of
+# 404ing — Angular's router then takes over client-side.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
