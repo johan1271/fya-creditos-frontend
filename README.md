@@ -7,7 +7,7 @@ Ionic + Angular frontend for Fya Social Capital's credit registration/lookup tec
 - **Backend repo:** https://github.com/johan1271/fya-creditos-backend
 - **Live backend API:** https://fya-creditos-backend.onrender.com
 - **Live web app:** https://fya-creditos-frontend.netlify.app
-- **Signed Android APK:** https://github.com/johan1271/fya-creditos-frontend/releases/tag/v1.1.0
+- **Signed Android APK:** https://github.com/johan1271/fya-creditos-frontend/releases/tag/v1.2.0
 - **Test credentials:** see the [backend README](https://github.com/johan1271/fya-creditos-backend#test-credentials)
 
 ## Stack
@@ -101,7 +101,7 @@ Frontend Ionic + Angular para la prueba técnica de registro/consulta de crédit
 - **Repo del backend:** https://github.com/johan1271/fya-creditos-backend
 - **API del backend en vivo:** https://fya-creditos-backend.onrender.com
 - **App web en vivo:** https://fya-creditos-frontend.netlify.app
-- **APK firmado de Android:** https://github.com/johan1271/fya-creditos-frontend/releases/tag/v1.1.0
+- **APK firmado de Android:** https://github.com/johan1271/fya-creditos-frontend/releases/tag/v1.2.0
 - **Credenciales de prueba:** ver el [README del backend](https://github.com/johan1271/fya-creditos-backend#credenciales-de-prueba)
 
 ## Stack
