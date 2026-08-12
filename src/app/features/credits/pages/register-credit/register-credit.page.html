@@ -109,7 +109,7 @@
       [disabled]="creditForm().invalid() || store.registering()"
     >
       @if (store.registering()) {
-        Registrando…
+        <ion-spinner name="circular" aria-label="Registrando"></ion-spinner>
       } @else {
         <ion-icon [icon]="addCircleOutline" slot="start"></ion-icon>
         Registrar crédito
