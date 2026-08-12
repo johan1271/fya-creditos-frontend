@@ -23,11 +23,18 @@
         label-placement="stacked"
         fill="outline"
         shape="round"
-        type="password"
+        [type]="passwordVisible() ? 'text' : 'password'"
         autocomplete="current-password"
         placeholder="••••••••••••••"
         [formField]="loginForm.password"
-      ></ion-input>
+      >
+        <ion-icon
+          slot="end"
+          [icon]="passwordVisible() ? eyeOffOutline : eyeOutline"
+          [attr.aria-label]="passwordVisible() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+          (click)="togglePasswordVisibility()"
+        ></ion-icon>
+      </ion-input>
 
       @if (store.error()) {
         <p class="field-error">{{ store.error() }}</p>
@@ -41,7 +48,7 @@
         [disabled]="loginForm().invalid() || store.loggingIn()"
       >
         @if (store.loggingIn()) {
-          Ingresando…
+          <ion-spinner name="circular" aria-label="Ingresando"></ion-spinner>
         } @else {
           <ion-icon [icon]="logInOutline" slot="start"></ion-icon>
           Ingresar
