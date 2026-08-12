@@ -113,6 +113,18 @@
   --placeholder-color: var(--app-text-muted);
 }
 
+// ion-searchbar renders its input in light DOM (Stencil "scoped" mode here,
+// not shadow DOM), so we can target it directly. Its icon/clear-button
+// padding eats into the available width on both sides, so on narrow phones
+// (e.g. a 360px-wide Xiaomi) a placeholder that fits comfortably at 390px+
+// gets clipped mid-word. Ionic never sets overflow/white-space on this input
+// itself, so text-overflow:ellipsis alone silently does nothing without them.
+:root ion-searchbar input.searchbar-input {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 // outline-fill ion-input's resting (unfocused) border falls back through
 // --ion-color-step-300 to a hardcoded #b3b3b3 — barely visible against a
 // light surface. Focus/invalid states already switch to --highlight-color
