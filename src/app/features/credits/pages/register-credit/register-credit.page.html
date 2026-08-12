@@ -13,18 +13,6 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <form id="register-credit-form" novalidate (submit)="onSubmit(); $event.preventDefault()">
-    @if (lastRegistered()) {
-      <ion-card class="success-recap" color="success">
-        <ion-card-content>
-          <ion-icon [icon]="checkmarkCircleOutline"></ion-icon>
-          <span>
-            Crédito registrado: <strong>{{ lastRegistered()!.customerName }}</strong> por
-            {{ lastRegistered()!.creditAmount | copCurrency }}
-          </span>
-        </ion-card-content>
-      </ion-card>
-    }
-
     <ion-input
       label="Nombre del cliente"
       label-placement="stacked"
@@ -121,6 +109,7 @@
       @if (store.registering()) {
         Registrando…
       } @else {
+        <ion-icon [icon]="addCircleOutline" slot="start"></ion-icon>
         Registrar crédito
       }
     </ion-button>

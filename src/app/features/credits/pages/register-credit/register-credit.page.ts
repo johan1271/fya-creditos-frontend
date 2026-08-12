@@ -5,8 +5,6 @@ import { firstValueFrom } from 'rxjs';
 import {
   IonButton,
   IonButtons,
-  IonCard,
-  IonCardContent,
   IonContent,
   IonFooter,
   IonHeader,
@@ -16,7 +14,7 @@ import {
   IonToolbar,
   ToastController,
 } from '@ionic/angular/standalone';
-import { checkmarkCircleOutline } from 'ionicons/icons';
+import { addCircleOutline } from 'ionicons/icons';
 
 import { AuthStore } from '../../../auth/services/auth.store';
 import { BrandIconComponent } from '../../../../shared/components/brand-icon/brand-icon.component';
@@ -34,8 +32,6 @@ const EMPTY_CREDIT = {
   salesAgent: '',
 };
 
-const SUCCESS_RECAP_DURATION_MS = 6000;
-
 @Component({
   selector: 'app-register-credit',
   templateUrl: 'register-credit.page.html',
@@ -49,27 +45,23 @@ const SUCCESS_RECAP_DURATION_MS = 6000;
     IonInput,
     IonButton,
     IonFooter,
-    IonCard,
-    IonCardContent,
     IonIcon,
     FormField,
-    CopCurrencyPipe,
     ThemeToggleComponent,
     LogoutButtonComponent,
     BrandIconComponent,
   ],
+  providers: [CopCurrencyPipe],
 })
 export class RegisterCreditPage {
   protected readonly store = inject(CreditsStore);
   private readonly authStore = inject(AuthStore);
   private readonly toastController = inject(ToastController);
+  private readonly copCurrency = inject(CopCurrencyPipe);
 
-  protected readonly checkmarkCircleOutline = checkmarkCircleOutline;
+  protected readonly addCircleOutline = addCircleOutline;
 
   protected readonly model = signal(this.restoreDraft());
-  protected readonly lastRegistered = signal<{ customerName: string; creditAmount: number } | null>(null);
-
-  private recapTimeoutId?: ReturnType<typeof setTimeout>;
 
   protected readonly creditForm = form(this.model, (schemaPath) => {
     required(schemaPath.customerName, { message: 'El nombre del cliente es obligatorio' });
@@ -107,15 +99,15 @@ export class RegisterCreditPage {
       try {
         const registered = await firstValueFrom(this.store.register(this.model()));
 
-        this.lastRegistered.set({ customerName: registered.customerName, creditAmount: registered.creditAmount });
-        clearTimeout(this.recapTimeoutId);
-        this.recapTimeoutId = setTimeout(() => this.lastRegistered.set(null), SUCCESS_RECAP_DURATION_MS);
-
         localStorage.removeItem(this.draftKey());
         this.model.set(this.blankCredit());
         this.creditForm().reset();
 
         await Haptics.impact({ style: ImpactStyle.Light }).catch(() => undefined);
+        await this.presentToast(
+          `Crédito registrado: ${registered.customerName} por ${this.copCurrency.transform(registered.creditAmount)}`,
+          'success',
+        );
       } catch {
         await this.presentToast('No se pudo registrar el crédito. Intenta de nuevo.', 'danger');
       }
@@ -123,7 +115,7 @@ export class RegisterCreditPage {
   }
 
   private async presentToast(message: string, color: 'success' | 'danger'): Promise<void> {
-    const toast = await this.toastController.create({ message, color, duration: 2500, position: 'bottom' });
+    const toast = await this.toastController.create({ message, color, duration: 3000, position: 'bottom' });
     await toast.present();
   }
 
